@@ -1,0 +1,19 @@
+.infoSidebar {
+  width: 40%;
+  padding: 1rem 2rem;
+
+  h2 {
+    font-size: 1.4rem;
+    text-transform: uppercase;
+    margin-bottom: 2rem;
+  }
+
+  .infoContainer {
+    &:not(:last-child) {
+      margin-bottom: 3rem;
+    }
+    .info {
+      text-align: right;
+    }
+  }
+}

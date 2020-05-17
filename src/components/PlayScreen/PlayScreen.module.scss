@@ -1,0 +1,12 @@
+.screen {
+  width: 390px;
+  border: solid 5px;
+  border-color: #987f0f #fae36c #fae36c #987f0f;
+  margin: 0 auto;
+  background-color: #9ead86;
+  .screenContainer {
+    border: 2px solid #494536;
+    padding: 8px;
+    display: flex;
+  }
+}
