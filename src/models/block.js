@@ -1,42 +1,47 @@
 import { blockShape, origin } from '../constants';
 
 class Block {
-  constructor(type) {
-    this.type = type;
-    this.rotateIndex = 0;
-    this.shape = blockShape[type];
+  constructor(option) {
+    this.type = option.type;
+    this.rotateIndex = option.rotateIndex || 0;
+    this.shape = option.shape || blockShape[option.type];
 
-    switch (type) {
-      case 'I':
-        this.x = 3;
-        this.y = 0;
-        break;
-      case 'L':
-        this.x = 4;
-        this.y = -1;
-        break;
-      case 'J':
-        this.x = 4;
-        this.y = -1;
-        break;
-      case 'Z':
-        this.x = 4;
-        this.y = -1;
-        break;
-      case 'S':
-        this.x = 4;
-        this.y = -1;
-        break;
-      case 'O':
-        this.x = 4;
-        this.y = -1;
-        break;
-      case 'T':
-        this.x = 4;
-        this.y = -1;
-        break;
-      default:
-        break;
+    if (!option.x && !option.y) {
+      switch (option.type) {
+        case 'I':
+          this.x = 3;
+          this.y = 0;
+          break;
+        case 'L':
+          this.x = 4;
+          this.y = -1;
+          break;
+        case 'J':
+          this.x = 4;
+          this.y = -1;
+          break;
+        case 'Z':
+          this.x = 4;
+          this.y = -1;
+          break;
+        case 'S':
+          this.x = 4;
+          this.y = -1;
+          break;
+        case 'O':
+          this.x = 4;
+          this.y = -1;
+          break;
+        case 'T':
+          this.x = 4;
+          this.y = -1;
+          break;
+        default:
+          break;
+      }
+    } else {
+      this.x = option.x;
+      this.y = option.y;
     }
   }
 
@@ -61,43 +66,43 @@ class Block {
         ? 0
         : this.rotateIndex + 1;
 
-    return {
+    return new Block({
       type: this.type,
       rotateIndex: nextRotateIndex,
       x: nextX,
       y: nextY,
       shape: result,
-    };
+    });
   }
 
   fall(distance = 1) {
-    return {
+    return new Block({
       type: this.type,
       rotateIndex: this.rotateIndex,
       x: this.x,
       y: this.y + distance,
       shape: this.shape,
-    };
+    });
   }
 
   left() {
-    return {
+    return new Block({
       type: this.type,
       rotateIndex: this.rotateIndex,
       x: this.x - 1,
       y: this.y,
       shape: this.shape,
-    };
+    });
   }
 
   right() {
-    return {
+    return new Block({
       type: this.type,
       rotateIndex: this.rotateIndex,
       x: this.x + 1,
       y: this.y,
       shape: this.shape,
-    };
+    });
   }
 }
 

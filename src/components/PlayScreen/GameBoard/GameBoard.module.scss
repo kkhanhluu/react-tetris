@@ -24,5 +24,13 @@
         overflow: hidden;
       }
     }
+
+    .filled {
+      border-color: #000;
+
+      &::after {
+        background: #000;
+      }
+    }
   }
 }

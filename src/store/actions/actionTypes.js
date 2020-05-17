@@ -1,0 +1,4 @@
+export const INIT_BOARD = 'INIT_BOARD';
+export const BLOCK_FALL = 'BLOCK_FALL';
+export const SET_FALL_INTERVAL = 'SET_FALL_INTERVAL';
+export const REMOVE_INTERVAL = 'REMOVE_INTERVAL';
