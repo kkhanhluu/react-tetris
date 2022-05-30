@@ -1,0 +1,41 @@
+parser: '@typescript-eslint/parser'
+extends:
+  - 'eslint:recommended'
+  - 'plugin:prettier/recommended'
+  - 'plugin:@typescript-eslint/recommended'
+  - 'plugin:@typescript-eslint/eslint-recommended'
+  - 'plugin:react/recommended'
+  - 'plugin:react-hooks/recommended'
+  - 'plugin:jsx-a11y/recommended'
+  - 'plugin:jest/recommended'
+  - 'prettier'
+parserOptions:
+  project: './tsconfig.json'
+  ecmaVersion: 2018
+  sourceType: 'module'
+plugins:
+  - 'import'
+rules:
+  '@typescript-eslint/no-unused-vars':
+    - error
+    - ignoreRestSiblings: true
+  'react/jsx-no-undef': off
+  'react/jsx-uses-react': off
+  'react/jsx-curly-brace-presence': 'warn'
+  'react/react-in-jsx-scope': off
+  'prettier/prettier': 'warn'
+  '@typescript-eslint/no-non-null-assertion': off
+  '@typescript-eslint/no-non-null-asserted-optional-chain': off
+  'react-hooks/rules-of-hooks': off
+overrides:
+  - files:
+      - '*.test.tsx'
+    rules:
+      '@typescript-eslint/no-empty-function': 0
+ignorePatterns:
+  - 'src/generated/**'
+  - '**/*.generated.*'
+  - 'babel.config.js'
+  - 'webpack.config.ts'
+  - 'jest.config.ts'
+  - 'release.config.js'
