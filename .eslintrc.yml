@@ -27,6 +27,9 @@ rules:
   '@typescript-eslint/no-non-null-assertion': off
   '@typescript-eslint/no-non-null-asserted-optional-chain': off
   'react-hooks/rules-of-hooks': off
+settings:
+  react:
+    version: 'detect'
 overrides:
   - files:
       - '*.test.tsx'
@@ -39,3 +42,4 @@ ignorePatterns:
   - 'webpack.config.ts'
   - 'jest.config.ts'
   - 'release.config.js'
+  - 'vite.config.ts'
