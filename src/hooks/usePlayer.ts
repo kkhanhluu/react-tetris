@@ -1,8 +1,9 @@
 import { randomTetromino } from 'helpers';
+import { STAGE_WIDTH } from 'helpers/constants';
 import { Shape } from 'helpers/types';
-import { useState } from 'react';
+import { useCallback, useState } from 'react';
 
-interface PlayerState {
+export interface PlayerState {
   pos: { x: number; y: number };
   tetromino: Shape;
   collided: boolean;
@@ -10,13 +11,38 @@ interface PlayerState {
 
 export function usePlayer(): [
   PlayerState,
-  React.Dispatch<React.SetStateAction<PlayerState>>,
+  (args: { x: number; y: number; collided?: boolean }) => void,
+  () => void,
 ] {
   const [player, setPlayer] = useState<PlayerState>({
-    pos: { x: 0, y: 0 },
-    tetromino: randomTetromino(),
+    pos: { x: STAGE_WIDTH / 2 - 2, y: 0 },
+    tetromino: Shape.EMPTY,
     collided: false,
   });
 
-  return [player, setPlayer];
+  function updatePlayerPos({
+    x,
+    y,
+    collided,
+  }: {
+    x: number;
+    y: number;
+    collided?: boolean;
+  }) {
+    setPlayer((prev) => ({
+      ...prev,
+      collided: collided ?? prev.collided,
+      pos: { x: (prev.pos.x += x), y: (prev.pos.y += y) },
+    }));
+  }
+
+  const resetPlayer = useCallback(() => {
+    setPlayer({
+      pos: { x: STAGE_WIDTH / 2 - 2, y: 0 },
+      tetromino: randomTetromino(),
+      collided: false,
+    });
+  }, []);
+
+  return [player, updatePlayerPos, resetPlayer];
 }
