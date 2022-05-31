@@ -1,4 +1,4 @@
-import { STAGE_HEIGHT, STAGE_WIDTH, TETROMINOS } from './constants';
+import { STAGE_HEIGHT, STAGE_WIDTH } from './constants';
 import { CellObject, CellStatus, Shape } from './types';
 
 export function createStage(): Array<Array<CellObject>> {
@@ -11,6 +11,6 @@ export function createStage(): Array<Array<CellObject>> {
 }
 
 export function randomTetromino() {
-  const tetrominos = 'IJLOSTZ';
-  return TETROMINOS[tetrominos[Math.floor(Math.random() * tetrominos.length)]];
+  const shapes = Object.values(Shape);
+  return shapes[Math.floor(Math.random() * shapes.length - 1)];
 }

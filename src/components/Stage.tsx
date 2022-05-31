@@ -1,6 +1,5 @@
-import { createStage } from 'helpers';
 import { TETROMINOS } from 'helpers/constants';
-import { Shape } from 'helpers/types';
+import { CellObject, Shape } from 'helpers/types';
 import { FunctionComponent } from 'react';
 import styled from 'styled-components';
 
@@ -29,8 +28,9 @@ const StyledStage = styled.div<{ height: number; width: number }>`
   background: #111;
 `;
 
-export const Stage: FunctionComponent = () => {
-  const stage = createStage();
+export const Stage: FunctionComponent<{ stage: CellObject[][] }> = ({
+  stage,
+}) => {
   return (
     <StyledStage width={stage[0].length} height={stage.length}>
       {stage.map((row) =>
