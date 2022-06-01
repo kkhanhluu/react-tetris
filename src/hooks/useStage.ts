@@ -22,12 +22,13 @@ export function useStage(
       );
 
       // draw the tetromino
+      console.log({ newStage });
       TETROMINOS[player.tetromino].shape.forEach((row, rowIndex) => {
         row.forEach((column, columnIndex) => {
-          if (column !== Shape.EMPTY) {
+          if (column !== '0') {
             newStage[rowIndex + player.pos.y][columnIndex + player.pos.x] = {
               shape: getShapeFromString(column),
-              status: player.collided ? CellStatus.COLLIDED : CellStatus.CLEAR,
+              status: player.collided ? CellStatus.MERGED : CellStatus.CLEAR,
             };
           }
         });

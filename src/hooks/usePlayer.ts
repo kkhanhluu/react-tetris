@@ -15,7 +15,7 @@ export function usePlayer(): [
   () => void,
 ] {
   const [player, setPlayer] = useState<PlayerState>({
-    pos: { x: STAGE_WIDTH / 2 - 2, y: 0 },
+    pos: { x: 0, y: 0 },
     tetromino: Shape.EMPTY,
     collided: false,
   });
@@ -31,8 +31,8 @@ export function usePlayer(): [
   }) {
     setPlayer((prev) => ({
       ...prev,
-      collided: collided ?? prev.collided,
       pos: { x: (prev.pos.x += x), y: (prev.pos.y += y) },
+      collided: collided ?? prev.collided,
     }));
   }
 

@@ -50,20 +50,20 @@ export function checkCollision(
       column < TETROMINOS[player.tetromino].shape[row].length;
       column++
     ) {
-      if (TETROMINOS[player.tetromino].shape[row][column] === '0') {
-        continue;
-      }
-      if (
-        // inside game area vertically
-        !stage[row + player.pos.y + moveY] ||
-        // inside game area horizontally
-        !stage[row + player.pos.y + moveY][column + player.pos.x + moveX] ||
-        // check the cell we're moving to isn't clear
-        stage[row + player.pos.y + moveY][column + player.pos.x + moveX]
-          .status !== CellStatus.CLEAR
-      ) {
-        return true;
+      if (TETROMINOS[player.tetromino].shape[row][column] !== '0') {
+        if (
+          // inside game area vertically
+          !stage[row + player.pos.y + moveY] ||
+          // inside game area horizontally
+          !stage[row + player.pos.y + moveY][column + player.pos.x + moveX] ||
+          // check the cell we're moving to isn't clear
+          stage[row + player.pos.y + moveY][column + player.pos.x + moveX]
+            .status !== CellStatus.CLEAR
+        ) {
+          return true;
+        }
       }
     }
   }
+  return false;
 }

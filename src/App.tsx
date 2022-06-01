@@ -15,16 +15,26 @@ function App() {
   function startGame() {
     setStage(createStage());
     resetPlayer();
+    setGameOver(false);
   }
 
   function movePlayer(direction: number) {
-    if (!checkCollision(player, stage, { moveX: direction, moveY: 0 })) {
-      updatePlayerPos({ x: direction, y: 0 });
+    if (checkCollision(player, stage, { moveX: direction, moveY: 0 })) {
+      return;
     }
+    updatePlayerPos({ x: direction, y: 0 });
   }
 
   function drop() {
-    updatePlayerPos({ x: 0, y: 1, collided: false });
+    if (checkCollision(player, stage, { moveX: 0, moveY: 1 })) {
+      if (player.pos.y < 1) {
+        setGameOver(true);
+        setDropTime(undefined);
+      }
+      updatePlayerPos({ x: 0, y: 0, collided: true });
+    } else {
+      updatePlayerPos({ x: 0, y: 1, collided: false });
+    }
   }
 
   function move({ key }: React.KeyboardEvent): void {
@@ -39,6 +49,11 @@ function App() {
       case 'ArrowRight':
         movePlayer(1);
         break;
+      case 'ArrowDown':
+        drop();
+        break;
+      default:
+        return;
     }
   }
 

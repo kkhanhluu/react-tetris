@@ -1,6 +1,6 @@
 export enum CellStatus {
   CLEAR,
-  COLLIDED,
+  MERGED,
 }
 
 export enum Shape {
