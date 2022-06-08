@@ -1,74 +1,62 @@
-import { Stage } from 'components/Stage';
-import { checkCollision, createStage } from 'helpers';
-import { usePlayer } from 'hooks/usePlayer';
-import { useStage } from 'hooks/useStage';
-import React, { useState } from 'react';
+import { Board } from 'components/Board';
+import { Colors } from 'helpers/colors';
+import styled from 'styled-components';
 import './App.css';
 
+const Container = styled.div`
+  width: 640px;
+  padding-top: 40px;
+  box-shadow: 0 0 10px ${Colors.white} inset;
+  border-radius: 20px;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  margin: -480px 0 0 -320px;
+  background: ${Colors.yellow};
+`;
+
+const React = styled.div`
+  width: 480px;
+  padding: 45px 0 35px;
+  border: ${Colors.black} solid;
+  border-width: 0 10px 10px;
+  margin: 0 auto;
+  position: relative;
+  &.drop {
+    -webkit-transform: translateY(5px);
+    transform: translateY(5px);
+  }
+`;
+
+const Screen = styled.div`
+  width: 390px;
+  height: 478px;
+  border: solid 5px;
+  border-color: #987f0f #fae36c #fae36c #987f0f;
+  margin: 0 auto;
+  position: relative;
+`;
+
+const Panel = styled.div`
+  width: 380px;
+  height: 468px;
+  margin: 0 auto;
+  background: #9ead86;
+  padding: 8px;
+  border: 2px solid #494536;
+`;
+
 function App() {
-  const [dropTime, setDropTime] = useState();
-  const [gameOver, setGameOver] = useState(false);
-
-  const [player, updatePlayerPos, resetPlayer] = usePlayer();
-  const [stage, setStage] = useStage(player, resetPlayer);
-
-  function startGame() {
-    setStage(createStage());
-    resetPlayer();
-    setGameOver(false);
-  }
-
-  function movePlayer(direction: number) {
-    if (checkCollision(player, stage, { moveX: direction, moveY: 0 })) {
-      return;
-    }
-    updatePlayerPos({ x: direction, y: 0 });
-  }
-
-  function drop() {
-    if (checkCollision(player, stage, { moveX: 0, moveY: 1 })) {
-      if (player.pos.y < 1) {
-        setGameOver(true);
-        setDropTime(undefined);
-      }
-      updatePlayerPos({ x: 0, y: 0, collided: true });
-    } else {
-      updatePlayerPos({ x: 0, y: 1, collided: false });
-    }
-  }
-
-  function move({ key }: React.KeyboardEvent): void {
-    if (gameOver) {
-      return;
-    }
-
-    switch (key) {
-      case 'ArrowLeft':
-        movePlayer(-1);
-        break;
-      case 'ArrowRight':
-        movePlayer(1);
-        break;
-      case 'ArrowDown':
-        drop();
-        break;
-      default:
-        return;
-    }
-  }
-
   return (
-    <div
-      className="App"
-      style={{ width: '100vw', height: '100vh' }}
-      role="button"
-      tabIndex={0}
-      onKeyDown={move}
-    >
-      <Stage stage={stage} />
-      {gameOver ? 'Game over' : null}
-      <button onClick={startGame}>Start game</button>
-    </div>
+    <Container>
+      <React>
+        <Screen>
+          <Panel>
+            <Board />
+          </Panel>
+        </Screen>
+      </React>
+    </Container>
   );
 }
 

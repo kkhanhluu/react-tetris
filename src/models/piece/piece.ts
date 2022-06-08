@@ -24,4 +24,14 @@ export class Piece {
     piece.setShapes(this.shapes);
     return piece;
   }
+
+  moveRight(): Piece {
+    this.x++;
+    return this.newPiece();
+  }
+
+  moveLeft(): Piece {
+    this.x--;
+    return this.newPiece();
+  }
 }

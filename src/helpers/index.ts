@@ -67,3 +67,6 @@ export function checkCollision(
   }
   return false;
 }
+
+export * from './matrix';
+export * from './piece';
