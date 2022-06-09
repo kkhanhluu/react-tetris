@@ -1,4 +1,4 @@
-import { Colors } from 'helpers/colors';
+import { Colors } from 'helpers';
 import styled from 'styled-components';
 
 export const Tile = styled.div`

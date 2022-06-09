@@ -1,5 +1,5 @@
 import { Board } from 'components/Board';
-import { Colors } from 'helpers/colors';
+import { Colors } from 'helpers';
 import { moveDown, moveLeft, moveRight, start } from 'services/tetrisService';
 import { useStore } from 'store';
 import styled from 'styled-components';
