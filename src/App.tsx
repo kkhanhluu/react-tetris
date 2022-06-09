@@ -1,5 +1,7 @@
 import { Board } from 'components/Board';
 import { Colors } from 'helpers/colors';
+import { moveDown, moveLeft, moveRight, start } from 'services/tetrisService';
+import { useStore } from 'store';
 import styled from 'styled-components';
 import './App.css';
 
@@ -47,16 +49,46 @@ const Panel = styled.div`
 `;
 
 function App() {
+  const store = useStore();
+  console.log(store);
+
+  function onKeyDown({ key }: React.KeyboardEvent) {
+    console.log({ key });
+    switch (key) {
+      case 's':
+        start(store);
+        break;
+      case 'ArrowDown':
+        moveDown(store);
+        break;
+      case 'ArrowLeft':
+        moveLeft(store);
+        break;
+      case 'ArrowRight':
+        moveRight(store);
+        break;
+      default:
+        break;
+    }
+  }
+
   return (
-    <Container>
-      <React>
-        <Screen>
-          <Panel>
-            <Board />
-          </Panel>
-        </Screen>
-      </React>
-    </Container>
+    <div
+      role="button"
+      style={{ width: '100vw', height: '100vh' }}
+      tabIndex={0}
+      onKeyDown={onKeyDown}
+    >
+      <Container>
+        <React>
+          <Screen>
+            <Panel>
+              <Board />
+            </Panel>
+          </Screen>
+        </React>
+      </Container>
+    </div>
   );
 }
 
