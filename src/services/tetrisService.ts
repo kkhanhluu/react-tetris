@@ -1,6 +1,11 @@
 import { GameStatus } from 'models/gameStatus';
 import { FilledTile } from 'models/tile/filledTile';
 import { TetrisState } from 'store';
+import {
+  doesCollideBottom,
+  doesCollideLeft,
+  doesCollideRight,
+} from './collisionService';
 
 export function start(state: TetrisState) {
   if (!state.currentPiece) {
@@ -17,18 +22,26 @@ export function moveDown(state: TetrisState) {
 }
 
 export function moveLeft(state: TetrisState) {
-  if (state.locked || !state.currentPiece) {
+  if (state.locked || !state.currentPiece || doesCollideLeft(state)) {
     return;
   }
+  state.currentPiece.store();
   state.setCurrentPiece(state.currentPiece.moveLeft());
+  if (doesCollideLeft(state)) {
+    state.currentPiece.revert();
+  }
   drawPiece(state);
 }
 
 export function moveRight(state: TetrisState) {
-  if (state.locked || !state.currentPiece) {
+  if (state.locked || !state.currentPiece || doesCollideRight(state)) {
     return;
   }
+  state.currentPiece.store();
   state.setCurrentPiece(state.currentPiece.moveRight());
+  if (doesCollideRight(state)) {
+    state.currentPiece.revert();
+  }
   drawPiece(state);
 }
 
@@ -37,11 +50,15 @@ function setNextPiece(state: TetrisState) {
 }
 
 function update(state: TetrisState) {
-  if (!state.currentPiece) {
+  if (!state.currentPiece || doesCollideBottom(state)) {
     return;
   }
   state.setLocked(true);
+  state.currentPiece.store();
   state.setCurrentPiece(state.currentPiece.moveDown());
+  if (doesCollideBottom(state)) {
+    state.currentPiece.revert();
+  }
   drawPiece(state);
   state.setLocked(false);
 }

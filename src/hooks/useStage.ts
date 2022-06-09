@@ -22,7 +22,6 @@ export function useStage(
       );
 
       // draw the tetromino
-      console.log({ newStage });
       TETROMINOS[player.tetromino].shape.forEach((row, rowIndex) => {
         row.forEach((column, columnIndex) => {
           if (column !== '0') {

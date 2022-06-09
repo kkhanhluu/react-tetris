@@ -8,7 +8,9 @@ export class Piece {
   public type!: PieceType;
   public shape!: Shape;
   public next!: Shape;
+
   private shapes!: Shapes;
+  private lastConfig: Partial<Piece> = {};
 
   constructor(public x: number, public y: number) {}
 
@@ -24,6 +26,27 @@ export class Piece {
     piece.next = this.next;
     piece.setShapes(this.shapes);
     return piece;
+  }
+
+  store(): Piece {
+    this.lastConfig = {
+      x: this.x,
+      y: this.y,
+      rotation: this.rotation,
+      shape: this.shape,
+    };
+    return this.newPiece();
+  }
+
+  revert(): Piece {
+    if (Object.keys(this.lastConfig).length > 0) {
+      Object.keys(this.lastConfig).forEach((key) => {
+        (this as Record<string, unknown>)[key] = (
+          this.lastConfig as Record<string, unknown>
+        )[key];
+      });
+    }
+    return this.newPiece();
   }
 
   get positionOnGrid(): number[] {

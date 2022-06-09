@@ -50,10 +50,8 @@ const Panel = styled.div`
 
 function App() {
   const store = useStore();
-  console.log(store);
 
   function onKeyDown({ key }: React.KeyboardEvent) {
-    console.log({ key });
     switch (key) {
       case 's':
         start(store);
