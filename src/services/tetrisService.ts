@@ -10,9 +10,10 @@ import {
 export function start(state: TetrisState) {
   if (!state.currentPiece) {
     state.setCurrentPiece(state.nextPiece);
-    setNextPiece(state);
+    state.setNextPiece(state.pieceUtil.getRandomPiece());
   }
   state.setGameStatus(GameStatus.Started);
+  state.setSpeed(1);
   state.setLocked(false);
   // TODO: update other game state like started, point, speed,...
 }
@@ -45,12 +46,8 @@ export function moveRight(state: TetrisState) {
   drawPiece(state);
 }
 
-function setNextPiece(state: TetrisState) {
-  state.setNextPiece(state.pieceUtil.getRandomPiece());
-}
-
-function update(state: TetrisState) {
-  if (!state.currentPiece || doesCollideBottom(state)) {
+export function update(state: TetrisState) {
+  if (state.locked || !state.currentPiece || doesCollideBottom(state)) {
     return;
   }
   state.setLocked(true);

@@ -1,10 +1,13 @@
 import { GameStatus } from 'models/gameStatus';
+import { Speed } from 'models/speed';
 import { TetrisState } from 'store';
 import { GetState, SetState } from 'zustand';
 
 export interface GameSlice {
   status: GameStatus;
   setGameStatus: (status: GameStatus) => void;
+  speed: Speed;
+  setSpeed: (speed: Speed) => void;
 }
 
 export function createGameSlice(
@@ -14,5 +17,7 @@ export function createGameSlice(
   return {
     setGameStatus: (status) => set({ status }),
     status: GameStatus.Loading,
+    speed: 0,
+    setSpeed: (speed) => set({ speed }, false),
   };
 }

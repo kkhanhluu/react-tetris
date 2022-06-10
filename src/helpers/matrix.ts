@@ -1,3 +1,4 @@
+import { Speed } from 'models/speed';
 import { EmptyTile } from 'models/tile/emptyTile';
 import { FilledTile } from 'models/tile/filledTile';
 import { Tile } from 'models/tile/tile';
@@ -5,6 +6,7 @@ import { Tile } from 'models/tile/tile';
 export class MatrixUtil {
   static readonly WIDTH = 10;
   static readonly HEIGHT = 20;
+  static SpeedDelay = [700, 600, 450, 320, 240, 160];
 
   static getStartBoard(startLines = 0): Tile[] {
     if (startLines === 0) {
@@ -49,5 +51,12 @@ export class MatrixUtil {
 
   static get FullRow(): Tile[] {
     return new Array(this.WIDTH).fill(new FilledTile());
+  }
+
+  static getSpeedDelay(speed: Speed) {
+    if (speed === 0) {
+      return null;
+    }
+    return this.SpeedDelay[speed - 1] ?? this.SpeedDelay[0];
   }
 }

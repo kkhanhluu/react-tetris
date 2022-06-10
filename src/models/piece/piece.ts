@@ -96,6 +96,7 @@ export class Piece {
   }
 
   moveDown(step = 1): Piece {
+    console.log('move down');
     this.y += step;
     return this.newPiece();
   }
