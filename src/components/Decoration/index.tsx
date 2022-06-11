@@ -25,7 +25,7 @@ export const Decoration: FunctionComponent = () => {
         <span className="r ml-10"></span>
       </TopBorder>
 
-      <StyledH1>Tetris</StyledH1>
+      <StyledH1>React Tetris</StyledH1>
 
       <View className="r">
         <Tile isFilled />

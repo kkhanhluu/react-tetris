@@ -3,11 +3,11 @@ import styled from 'styled-components';
 
 export const Container = styled.div`
   width: 640px;
-  padding-top: 35px;
+  padding-top: 40px;
   box-shadow: 0 0 10px ${Colors.white} inset;
   border-radius: 20px;
   position: absolute;
-  top: 55%;
+  top: 50%;
   left: 50%;
   margin: -480px 0 0 -320px;
   background: ${Colors.yellow};

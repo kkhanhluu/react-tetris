@@ -1,6 +1,7 @@
 import { Container, Panel, Rect, ScreenContainer } from 'App.style';
 import { Board } from 'components/Board';
 import { Decoration } from 'components/Decoration';
+import { Keyboard } from 'components/Keyboard';
 import { MatrixUtil } from 'helpers';
 import useInterval from 'hooks/useInterval';
 import { GameStatus } from 'models/gameStatus';
@@ -99,6 +100,7 @@ function App() {
             </Panel>
           </ScreenContainer>
         </Rect>
+        <Keyboard />
       </Container>
     </div>
   );
