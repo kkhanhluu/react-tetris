@@ -27,7 +27,7 @@ export function moveLeft(state: TetrisState) {
   if (state.locked || !state.currentPiece) {
     return;
   }
-  state.currentPiece.store();
+  state.setCurrentPiece(state.currentPiece.store());
   state.setCurrentPiece(state.currentPiece.moveLeft());
   if (doesCollideLeft(state)) {
     state.currentPiece.revert();
@@ -39,10 +39,29 @@ export function moveRight(state: TetrisState) {
   if (state.locked || !state.currentPiece) {
     return;
   }
-  state.currentPiece.store();
+  state.setCurrentPiece(state.currentPiece.store());
   state.setCurrentPiece(state.currentPiece.moveRight());
   if (doesCollideRight(state)) {
     state.currentPiece.revert();
+  }
+  drawPiece(state);
+}
+
+export function rotate(state: TetrisState) {
+  if (state.locked || !state.currentPiece) {
+    return;
+  }
+
+  clearPiece(state);
+  state.setCurrentPiece(state.currentPiece.store());
+  state.setCurrentPiece(state.currentPiece.rotate());
+
+  while (doesCollideRight(state)) {
+    state.setCurrentPiece(state.currentPiece.moveLeft());
+    if (doesCollideLeft(state)) {
+      state.setCurrentPiece(state.currentPiece.revert());
+      break;
+    }
   }
   drawPiece(state);
 }

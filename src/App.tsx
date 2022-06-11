@@ -7,6 +7,7 @@ import {
   moveDown,
   moveLeft,
   moveRight,
+  rotate,
   start,
   update,
 } from 'services/tetrisService';
@@ -34,6 +35,9 @@ function App() {
         break;
       case 'ArrowRight':
         moveRight(store);
+        break;
+      case 'ArrowUp':
+        rotate(store);
         break;
       default:
         break;

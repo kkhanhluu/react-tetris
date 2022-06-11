@@ -54,6 +54,15 @@ export class Piece {
     return this.newPiece();
   }
 
+  rotate(): Piece {
+    const keys = Object.keys(this.shapes);
+    const idx = keys.indexOf(this.rotation.toString());
+    const isTurnOver = idx >= keys.length - 1;
+    this.rotation = Number(isTurnOver ? keys[0] : keys[idx + 1]);
+    this.shape = this.shapes[this.rotation];
+    return this.newPiece();
+  }
+
   get positionOnGrid(): number[] {
     const positions = [];
     for (let row = 0; row < 4; row++) {
