@@ -9,6 +9,8 @@ export interface GameSlice {
   speed: Speed;
   initSpeed: Speed;
   setSpeed: (speed: Speed) => void;
+  isSoundOn: boolean;
+  toggleSoundOn: () => void;
 }
 
 export function createGameSlice(
@@ -20,6 +22,8 @@ export function createGameSlice(
     status: GameStatus.Loading,
     speed: 0,
     initSpeed: 1,
-    setSpeed: (speed) => set({ speed }, false),
+    setSpeed: (speed) => set({ speed }),
+    isSoundOn: true,
+    toggleSoundOn: () => set((state) => ({ isSoundOn: !state.isSoundOn })),
   };
 }

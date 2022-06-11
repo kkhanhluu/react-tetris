@@ -11,7 +11,9 @@ import { Decoration } from 'components/Decoration';
 import { Keyboard } from 'components/Keyboard';
 import { Level } from 'components/Level';
 import { Line } from 'components/Line';
+import { Music } from 'components/Music';
 import { NextPiece } from 'components/NextPiece';
+import { Pause } from 'components/Pause';
 import { Point } from 'components/Point';
 import { MatrixUtil } from 'helpers';
 import useInterval from 'hooks/useInterval';
@@ -78,6 +80,10 @@ function App() {
           pause(store);
         }
         break;
+      case 's':
+        store.setKey({ isKeySoundActive: true });
+        store.toggleSoundOn();
+        break;
       default:
         break;
     }
@@ -105,6 +111,9 @@ function App() {
         break;
       case 'p':
         store.setKey({ isKeyPauseActive: false });
+        break;
+      case 's':
+        store.setKey({ isKeySoundActive: false });
         break;
       default:
         break;
@@ -151,6 +160,8 @@ function App() {
                 <NextPiece />
                 <div className="last-row">
                   <Clock />
+                  <Pause />
+                  <Music />
                 </div>
               </StateContainer>
             </Panel>
