@@ -1,7 +1,7 @@
-import classNames from 'classnames';
+import { Tile } from 'components/Tile';
 import { FunctionComponent } from 'react';
 import { useStore } from 'store';
-import { StyledBoard, Tile } from './style';
+import { StyledBoard } from './style';
 
 export const Board: FunctionComponent = () => {
   const { matrix } = useStore();
@@ -12,10 +12,9 @@ export const Board: FunctionComponent = () => {
         return (
           <Tile
             key={index}
-            className={classNames({
-              filled: isFilled || isSolid,
-              animated: isAnimated,
-            })}
+            isAnimated={isAnimated}
+            isFilled={isFilled}
+            isSolid={isSolid}
           />
         );
       })}

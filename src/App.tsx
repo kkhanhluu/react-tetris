@@ -1,9 +1,10 @@
-import { Container, Panel, ReactContainer, ScreenContainer } from 'App.style';
+import { Container, Panel, Rect, ScreenContainer } from 'App.style';
 import { Board } from 'components/Board';
+import { Decoration } from 'components/Decoration';
 import { MatrixUtil } from 'helpers';
 import useInterval from 'hooks/useInterval';
 import { GameStatus } from 'models/gameStatus';
-import React, { useRef } from 'react';
+import React, { CSSProperties, useRef } from 'react';
 import {
   drop,
   moveDown,
@@ -63,6 +64,25 @@ function App() {
     }
   }
 
+  let filling = 0;
+  const w = document.documentElement.clientWidth;
+  const h = document.documentElement.clientHeight;
+  const ratio = h / w;
+  let scale;
+  let css: CSSProperties = {};
+  if (ratio < 1.5) {
+    scale = h / 960;
+  } else {
+    scale = w / 640;
+    filling = (h - 960 * scale) / scale / 3;
+    css = {
+      paddingTop: Math.floor(filling) + 42,
+      paddingBottom: Math.floor(filling),
+      marginTop: Math.floor(-480 - filling * 1.5),
+    };
+  }
+  css.transform = `scale(${scale})`;
+
   return (
     <div
       role="button"
@@ -70,14 +90,15 @@ function App() {
       tabIndex={0}
       onKeyDown={onKeyDown}
     >
-      <Container>
-        <ReactContainer>
+      <Container style={css}>
+        <Rect>
+          <Decoration />
           <ScreenContainer>
             <Panel>
               <Board />
             </Panel>
           </ScreenContainer>
-        </ReactContainer>
+        </Rect>
       </Container>
     </div>
   );

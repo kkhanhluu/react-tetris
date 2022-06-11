@@ -3,17 +3,17 @@ import styled from 'styled-components';
 
 export const Container = styled.div`
   width: 640px;
-  padding-top: 40px;
+  padding-top: 35px;
   box-shadow: 0 0 10px ${Colors.white} inset;
   border-radius: 20px;
   position: absolute;
-  top: 50%;
+  top: 55%;
   left: 50%;
   margin: -480px 0 0 -320px;
   background: ${Colors.yellow};
 `;
 
-export const ReactContainer = styled.div`
+export const Rect = styled.div`
   width: 480px;
   padding: 45px 0 35px;
   border: ${Colors.black} solid;
