@@ -2,13 +2,16 @@ import { Container, Panel, ReactContainer, ScreenContainer } from 'App.style';
 import { Board } from 'components/Board';
 import { MatrixUtil } from 'helpers';
 import useInterval from 'hooks/useInterval';
+import { GameStatus } from 'models/gameStatus';
 import React, { useRef } from 'react';
 import {
   drop,
   moveDown,
   moveLeft,
   moveRight,
+  pause,
   reset,
+  resume,
   rotate,
   start,
   update,
@@ -47,6 +50,13 @@ function App() {
         break;
       case 'r':
         reset(store);
+        break;
+      case 'p':
+        if (store.status !== GameStatus.Started) {
+          resume(store);
+        } else {
+          pause(store);
+        }
         break;
       default:
         break;

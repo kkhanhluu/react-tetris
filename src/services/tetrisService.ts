@@ -16,7 +16,7 @@ export function start(state: TetrisState) {
     state.setNextPiece(state.pieceUtil.getRandomPiece());
   }
   state.setGameStatus(GameStatus.Started);
-  state.setSpeed(1);
+  state.setSpeed(state.initSpeed);
   state.setLocked(false);
   // TODO: update other game state like started, point, speed,...
 }
@@ -120,6 +120,23 @@ export function reset(state: TetrisState) {
   createInitialState(state);
 }
 
+export function pause(state: TetrisState) {
+  if (state.status === GameStatus.Paused) {
+    return;
+  }
+  state.setLocked(true);
+  state.setSpeed(0);
+  state.setGameStatus(GameStatus.Paused);
+}
+
+export function resume(state: TetrisState) {
+  if (state.status === GameStatus.Started) {
+    return;
+  }
+  state.setLocked(false);
+  state.setSpeed(state.initSpeed);
+  state.setGameStatus(GameStatus.Started);
+}
 function drawPiece(state: TetrisState) {
   if (state.currentPiece) {
     state.setCurrentPiece(state.currentPiece.clearStore());
