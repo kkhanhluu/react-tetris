@@ -10,7 +10,7 @@ export class Piece {
   public next!: Shape;
 
   private shapes!: Shapes;
-  private lastConfig: Partial<Piece> = {};
+  private lastConfig: Partial<Piece> | null = null;
 
   constructor(public x: number, public y: number) {}
 
@@ -38,8 +38,13 @@ export class Piece {
     return this.newPiece();
   }
 
+  clearStore(): Piece {
+    this.lastConfig = null;
+    return this.newPiece();
+  }
+
   revert(): Piece {
-    if (Object.keys(this.lastConfig).length > 0) {
+    if (this.lastConfig) {
       Object.keys(this.lastConfig).forEach((key) => {
         (this as Record<string, unknown>)[key] = (
           this.lastConfig as Record<string, unknown>
@@ -96,7 +101,6 @@ export class Piece {
   }
 
   moveDown(step = 1): Piece {
-    console.log('move down');
     this.y += step;
     return this.newPiece();
   }

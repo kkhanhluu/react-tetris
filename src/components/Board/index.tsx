@@ -8,15 +8,17 @@ export const Board: FunctionComponent = () => {
 
   return (
     <StyledBoard className="game-board">
-      {matrix.map(({ isFilled, isAnimated }, index) => (
-        <Tile
-          key={index}
-          className={classNames({
-            filled: isFilled,
-            animated: isAnimated,
-          })}
-        />
-      ))}
+      {matrix.map(({ isFilled, isAnimated, isSolid }, index) => {
+        return (
+          <Tile
+            key={index}
+            className={classNames({
+              filled: isFilled || isSolid,
+              animated: isAnimated,
+            })}
+          />
+        );
+      })}
     </StyledBoard>
   );
 };

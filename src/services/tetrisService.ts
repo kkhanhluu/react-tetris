@@ -1,4 +1,5 @@
 import { GameStatus } from 'models/gameStatus';
+import { EmptyTile } from 'models/tile/emptyTile';
 import { FilledTile } from 'models/tile/filledTile';
 import { TetrisState } from 'store';
 import {
@@ -23,7 +24,7 @@ export function moveDown(state: TetrisState) {
 }
 
 export function moveLeft(state: TetrisState) {
-  if (state.locked || !state.currentPiece || doesCollideLeft(state)) {
+  if (state.locked || !state.currentPiece) {
     return;
   }
   state.currentPiece.store();
@@ -35,7 +36,7 @@ export function moveLeft(state: TetrisState) {
 }
 
 export function moveRight(state: TetrisState) {
-  if (state.locked || !state.currentPiece || doesCollideRight(state)) {
+  if (state.locked || !state.currentPiece) {
     return;
   }
   state.currentPiece.store();
@@ -47,29 +48,51 @@ export function moveRight(state: TetrisState) {
 }
 
 export function update(state: TetrisState) {
-  if (state.locked || !state.currentPiece || doesCollideBottom(state)) {
+  if (state.locked || !state.currentPiece) {
     return;
   }
   state.setLocked(true);
-  state.currentPiece.store();
+  state.setCurrentPiece(state.currentPiece.revert());
+  clearPiece(state);
+  state.setCurrentPiece(state.currentPiece.store());
   state.setCurrentPiece(state.currentPiece.moveDown());
+
   if (doesCollideBottom(state)) {
-    state.currentPiece.revert();
+    state.setCurrentPiece(state.currentPiece.revert());
+
+    // draw filled tile in board
+    const newMatrix = structuredClone(state.matrix);
+    state.currentPiece.revert()?.positionOnGrid.forEach((position) => {
+      newMatrix[position] = new FilledTile(true);
+    });
+    state.setMatrix(newMatrix);
+
+    state.setCurrentPiece(state.nextPiece);
+    state.setNextPiece(state.pieceUtil.getRandomPiece());
+    state.setLocked(false);
+    return;
   }
+
   drawPiece(state);
   state.setLocked(false);
 }
 
 function drawPiece(state: TetrisState) {
-  // this._setCurrentPiece(this._current.clearStore());
+  if (state.currentPiece) {
+    state.setCurrentPiece(state.currentPiece.clearStore());
+  }
   const newMatrix = structuredClone(state.matrix);
   state.currentPiece?.positionOnGrid.forEach((position) => {
-    const { isSolid } = newMatrix[position];
+    const { isSolid } = state.matrix[position];
     newMatrix[position] = new FilledTile(isSolid);
   });
   state.setMatrix(newMatrix);
-  // for (let row = 0;)
-  // this._loopThroughPiecePosition((position) => {
-  //   this._updateMatrix(position, new FilledTile(isSolid));
-  // });
+}
+
+function clearPiece(state: TetrisState) {
+  const newMatrix = structuredClone(state.matrix);
+  state.currentPiece?.positionOnGrid.forEach((position) => {
+    newMatrix[position] = new EmptyTile();
+  });
+  state.setMatrix(newMatrix);
 }
