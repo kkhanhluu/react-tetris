@@ -4,6 +4,7 @@ import { MatrixUtil } from 'helpers';
 import useInterval from 'hooks/useInterval';
 import React, { useRef } from 'react';
 import {
+  drop,
   moveDown,
   moveLeft,
   moveRight,
@@ -25,6 +26,10 @@ function App() {
   function onKeyDown({ key }: React.KeyboardEvent) {
     switch (key) {
       case ' ':
+        if (store.currentPiece) {
+          drop(store);
+          return;
+        }
         start(store);
         break;
       case 'ArrowDown':

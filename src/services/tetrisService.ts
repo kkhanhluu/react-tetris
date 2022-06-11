@@ -68,6 +68,19 @@ export function rotate(state: TetrisState) {
   drawPiece(state);
 }
 
+export function drop(state: TetrisState) {
+  if (state.locked || !state.currentPiece) {
+    return;
+  }
+  while (!doesCollideBottom(state)) {
+    clearPiece(state);
+    state.setCurrentPiece(state.currentPiece.store());
+    state.setCurrentPiece(state.currentPiece.moveDown());
+  }
+  state.setCurrentPiece(state.currentPiece.revert());
+  drawPiece(state);
+}
+
 export function update(state: TetrisState) {
   if (state.locked || !state.currentPiece) {
     return;
