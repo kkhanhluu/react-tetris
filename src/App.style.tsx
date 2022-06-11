@@ -43,3 +43,23 @@ export const Panel = styled.div`
   padding: 8px;
   border: 2px solid #494536;
 `;
+
+export const StateContainer = styled.div`
+  width: 108px;
+  position: absolute;
+  top: 0;
+  right: 15px;
+  p {
+    line-height: 47px;
+    height: 57px;
+    padding: 10px 0 0;
+    white-space: nowrap;
+    clear: both;
+  }
+  .bottom {
+    position: absolute;
+    width: 114px;
+    top: 426px;
+    left: 0;
+  }
+`;

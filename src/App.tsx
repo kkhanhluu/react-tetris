@@ -1,7 +1,18 @@
-import { Container, Panel, Rect, ScreenContainer } from 'App.style';
+import {
+  Container,
+  Panel,
+  Rect,
+  ScreenContainer,
+  StateContainer,
+} from 'App.style';
 import { Board } from 'components/Board';
+import { Clock } from 'components/Clock';
 import { Decoration } from 'components/Decoration';
 import { Keyboard } from 'components/Keyboard';
+import { Level } from 'components/Level';
+import { Line } from 'components/Line';
+import { NextPiece } from 'components/NextPiece';
+import { Point } from 'components/Point';
 import { MatrixUtil } from 'helpers';
 import useInterval from 'hooks/useInterval';
 import { GameStatus } from 'models/gameStatus';
@@ -133,6 +144,15 @@ function App() {
           <ScreenContainer>
             <Panel>
               <Board />
+              <StateContainer className="state">
+                <Point />
+                <Line />
+                <Level />
+                <NextPiece />
+                <div className="last-row">
+                  <Clock />
+                </div>
+              </StateContainer>
             </Panel>
           </ScreenContainer>
         </Rect>
