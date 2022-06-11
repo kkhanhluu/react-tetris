@@ -1,6 +1,8 @@
+import { MatrixUtil } from 'helpers';
 import { GameStatus } from 'models/gameStatus';
 import { EmptyTile } from 'models/tile/emptyTile';
 import { FilledTile } from 'models/tile/filledTile';
+import { Tile } from 'models/tile/tile';
 import { TetrisState } from 'store';
 import {
   doesCollideBottom,
@@ -84,6 +86,7 @@ export function update(state: TetrisState) {
     state.currentPiece.revert()?.positionOnGrid.forEach((position) => {
       newMatrix[position] = new FilledTile(true);
     });
+    clearFullLines(newMatrix);
     state.setMatrix(newMatrix);
 
     state.setCurrentPiece(state.nextPiece);
@@ -114,4 +117,22 @@ function clearPiece(state: TetrisState) {
     newMatrix[position] = new EmptyTile();
   });
   state.setMatrix(newMatrix);
+}
+
+function clearFullLines(newMatrix: Tile[]) {
+  for (let rowIndex = MatrixUtil.HEIGHT - 1; rowIndex >= 0; rowIndex--) {
+    const row = newMatrix.slice(
+      rowIndex * MatrixUtil.WIDTH,
+      (rowIndex + 1) * MatrixUtil.WIDTH,
+    );
+    const isRowFullySolid = row.every((cell) => cell.isSolid);
+    if (isRowFullySolid) {
+      const topPortion = newMatrix.slice(0, rowIndex * MatrixUtil.WIDTH);
+      newMatrix.splice(
+        0,
+        ++rowIndex * MatrixUtil.WIDTH,
+        ...MatrixUtil.EmptyRow.concat(topPortion),
+      );
+    }
+  }
 }
