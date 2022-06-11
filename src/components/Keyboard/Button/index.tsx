@@ -33,7 +33,7 @@ export const Button: FunctionComponent<ButtonProps> = ({
       {size === 'btn-md' ? (
         <em style={{ transform: `${arrow} scale(1, 2)` }} />
       ) : null}
-      <span className={classNames({ position: isPositionAbsolute })}>
+      <span className={classNames({ absolute: isPositionAbsolute })}>
         {label}
       </span>
     </StyledButton>

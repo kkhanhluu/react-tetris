@@ -1,8 +1,10 @@
 import { Button } from 'components/Keyboard/Button';
 import { FunctionComponent } from 'react';
+import { useStore } from 'store';
 import { KeyboardContainer } from './style';
 
 export const Keyboard: FunctionComponent = () => {
+  const store = useStore();
   return (
     <KeyboardContainer>
       <Button
@@ -13,7 +15,7 @@ export const Keyboard: FunctionComponent = () => {
         label="Rotate"
         arrow="translate(0, 63px)"
         isPositionAbsolute
-        active={false}
+        active={store.isKeyUpActive}
       />
       <Button
         color="blue"
@@ -22,7 +24,7 @@ export const Keyboard: FunctionComponent = () => {
         left={374}
         label="Down"
         arrow="translate(0,-71px) rotate(180deg)"
-        active={false}
+        active={store.isKeyDownActive}
       />
       <Button
         color="blue"
@@ -31,7 +33,7 @@ export const Keyboard: FunctionComponent = () => {
         left={284}
         label="Left"
         arrow="translate(60px, -12px) rotate(270deg)"
-        active={false}
+        active={store.isKeyLeftActive}
       />
       <Button
         color="blue"
@@ -40,7 +42,7 @@ export const Keyboard: FunctionComponent = () => {
         left={464}
         label="Right"
         arrow="translate(-60px, -12px) rotate(90deg)"
-        active={false}
+        active={store.isKeyRightActive}
       />
       <Button
         color="blue"
@@ -48,7 +50,7 @@ export const Keyboard: FunctionComponent = () => {
         top={100}
         left={52}
         label="Drop (SPACE)"
-        active={false}
+        active={store.isKeyDropActive}
       />
       <Button
         color="red"
@@ -56,7 +58,7 @@ export const Keyboard: FunctionComponent = () => {
         top={0}
         left={196}
         label="Reset (R)"
-        active={false}
+        active={store.isKeyResetActive}
       />
       <Button
         color="green"
@@ -64,7 +66,7 @@ export const Keyboard: FunctionComponent = () => {
         top={0}
         left={106}
         label="Sound(S)"
-        active={false}
+        active={store.isKeySoundActive}
       />
       <Button
         color="green"
@@ -72,7 +74,7 @@ export const Keyboard: FunctionComponent = () => {
         top={0}
         left={16}
         label="Pause(P)"
-        active={false}
+        active={store.isKeyPauseActive}
       />
     </KeyboardContainer>
   );

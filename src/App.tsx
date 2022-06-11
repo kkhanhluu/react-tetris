@@ -32,6 +32,7 @@ function App() {
   function onKeyDown({ key }: React.KeyboardEvent) {
     switch (key) {
       case ' ':
+        store.setKey({ isKeyDropActive: true });
         if (store.currentPiece) {
           drop(store);
           return;
@@ -39,26 +40,60 @@ function App() {
         start(store);
         break;
       case 'ArrowDown':
+        store.setKey({ isKeyDownActive: true });
         moveDown(store);
         break;
       case 'ArrowLeft':
+        store.setKey({ isKeyLeftActive: true });
         moveLeft(store);
         break;
       case 'ArrowRight':
+        store.setKey({ isKeyRightActive: true });
         moveRight(store);
         break;
       case 'ArrowUp':
+        store.setKey({ isKeyUpActive: true });
         rotate(store);
         break;
       case 'r':
+        store.setKey({ isKeyResetActive: true });
         reset(store);
         break;
       case 'p':
+        store.setKey({ isKeyPauseActive: true });
         if (store.status !== GameStatus.Started) {
           resume(store);
         } else {
           pause(store);
         }
+        break;
+      default:
+        break;
+    }
+  }
+
+  function onKeyUp({ key }: React.KeyboardEvent) {
+    switch (key) {
+      case ' ':
+        store.setKey({ isKeyDropActive: false });
+        break;
+      case 'ArrowDown':
+        store.setKey({ isKeyDownActive: false });
+        break;
+      case 'ArrowLeft':
+        store.setKey({ isKeyLeftActive: false });
+        break;
+      case 'ArrowRight':
+        store.setKey({ isKeyRightActive: false });
+        break;
+      case 'ArrowUp':
+        store.setKey({ isKeyUpActive: false });
+        break;
+      case 'r':
+        store.setKey({ isKeyResetActive: false });
+        break;
+      case 'p':
+        store.setKey({ isKeyPauseActive: false });
         break;
       default:
         break;
@@ -90,6 +125,7 @@ function App() {
       style={{ width: '100vw', height: '100vh' }}
       tabIndex={0}
       onKeyDown={onKeyDown}
+      onKeyUp={onKeyUp}
     >
       <Container style={css}>
         <Rect>
