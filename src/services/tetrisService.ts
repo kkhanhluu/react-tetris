@@ -1,4 +1,4 @@
-import { MatrixUtil } from 'helpers';
+import { MatrixUtil, PieceUtil } from 'helpers';
 import { GameStatus } from 'models/gameStatus';
 import { EmptyTile } from 'models/tile/emptyTile';
 import { FilledTile } from 'models/tile/filledTile';
@@ -105,11 +105,19 @@ export function update(state: TetrisState) {
     state.setCurrentPiece(state.nextPiece);
     state.setNextPiece(state.pieceUtil.getRandomPiece());
     state.setLocked(false);
+
+    if (isGameOver(state)) {
+      onGameOver(state);
+    }
     return;
   }
 
   drawPiece(state);
   state.setLocked(false);
+}
+
+export function reset(state: TetrisState) {
+  createInitialState(state);
 }
 
 function drawPiece(state: TetrisState) {
@@ -148,4 +156,24 @@ function clearFullLines(newMatrix: Tile[]) {
       );
     }
   }
+}
+
+function isGameOver(state: TetrisState) {
+  console.log(state.matrix.slice(0, MatrixUtil.WIDTH));
+  return state.matrix.slice(0, MatrixUtil.WIDTH).some((cell) => cell.isSolid);
+}
+
+function onGameOver(state: TetrisState) {
+  alert('Game Over');
+  createInitialState(state);
+}
+
+function createInitialState(state: TetrisState) {
+  const pieceUtil = new PieceUtil();
+  state.setGameStatus(GameStatus.Over);
+  state.setMatrix(MatrixUtil.getStartBoard());
+  state.setCurrentPiece(null);
+  state.setLocked(true);
+  state.setPieceUtil(pieceUtil);
+  state.setNextPiece(pieceUtil.getRandomPiece());
 }

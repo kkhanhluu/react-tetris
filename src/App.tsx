@@ -8,6 +8,7 @@ import {
   moveDown,
   moveLeft,
   moveRight,
+  reset,
   rotate,
   start,
   update,
@@ -43,6 +44,9 @@ function App() {
         break;
       case 'ArrowUp':
         rotate(store);
+        break;
+      case 'r':
+        reset(store);
         break;
       default:
         break;

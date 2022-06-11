@@ -10,8 +10,9 @@ export interface PieceSlice {
   currentPiece: Piece | null;
   nextPiece: Piece;
   hold: Piece;
-  setCurrentPiece: (newPiece: Piece) => void;
+  setCurrentPiece: (newPiece: Piece | null) => void;
   setNextPiece: (newPiece: Piece) => void;
+  setPieceUtil: (pieceUtil: PieceUtil) => void;
 }
 
 export function createPieceSlice(
@@ -23,11 +24,14 @@ export function createPieceSlice(
     currentPiece: null,
     nextPiece: pieceUtil.getRandomPiece(),
     hold: pieceUtil.getNonePiece(),
-    setCurrentPiece: (newPiece: Piece) => {
+    setCurrentPiece: (newPiece: Piece | null) => {
       set({ currentPiece: newPiece });
     },
     setNextPiece: (newPiece: Piece) => {
       set({ nextPiece: newPiece });
+    },
+    setPieceUtil: (pieceUtil: PieceUtil) => {
+      set({ pieceUtil });
     },
   };
 }
