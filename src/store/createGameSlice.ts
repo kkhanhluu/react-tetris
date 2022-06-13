@@ -11,6 +11,8 @@ export interface GameSlice {
   setSpeed: (speed: Speed) => void;
   isSoundOn: boolean;
   toggleSoundOn: () => void;
+  numberOfClearedLines: number;
+  setNumberOfClearedLines: (lines: number) => void;
 }
 
 export function createGameSlice(
@@ -25,5 +27,10 @@ export function createGameSlice(
     setSpeed: (speed) => set({ speed }),
     isSoundOn: true,
     toggleSoundOn: () => set((state) => ({ isSoundOn: !state.isSoundOn })),
+    numberOfClearedLines: 0,
+    setNumberOfClearedLines: (lines) =>
+      set((state) => ({
+        numberOfClearedLines: state.numberOfClearedLines + lines,
+      })),
   };
 }

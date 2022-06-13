@@ -2,7 +2,6 @@ import { MatrixUtil, PieceUtil } from 'helpers';
 import { GameStatus } from 'models/gameStatus';
 import { EmptyTile } from 'models/tile/emptyTile';
 import { FilledTile } from 'models/tile/filledTile';
-import { Tile } from 'models/tile/tile';
 import { TetrisState } from 'store';
 import {
   doesCollideBottom,
@@ -99,8 +98,8 @@ export function update(state: TetrisState) {
     state.currentPiece.revert()?.positionOnGrid.forEach((position) => {
       newMatrix[position] = new FilledTile(true);
     });
-    clearFullLines(newMatrix);
     state.setMatrix(newMatrix);
+    // const numberOfClearedLines = clearFullLines(newMatrix);
 
     state.setCurrentPiece(state.nextPiece);
     state.setNextPiece(state.pieceUtil.getRandomPiece());
@@ -157,7 +156,9 @@ function clearPiece(state: TetrisState) {
   state.setMatrix(newMatrix);
 }
 
-function clearFullLines(newMatrix: Tile[]) {
+export function clearFullLines(state: TetrisState) {
+  const newMatrix = structuredClone(state.matrix);
+  let numberOfFullLines = 0;
   for (let rowIndex = MatrixUtil.HEIGHT - 1; rowIndex >= 0; rowIndex--) {
     const row = newMatrix.slice(
       rowIndex * MatrixUtil.WIDTH,
@@ -165,6 +166,7 @@ function clearFullLines(newMatrix: Tile[]) {
     );
     const isRowFullySolid = row.every((cell) => cell.isSolid);
     if (isRowFullySolid) {
+      numberOfFullLines++;
       const topPortion = newMatrix.slice(0, rowIndex * MatrixUtil.WIDTH);
       newMatrix.splice(
         0,
@@ -173,10 +175,11 @@ function clearFullLines(newMatrix: Tile[]) {
       );
     }
   }
+  state.setMatrix(newMatrix);
+  state.setNumberOfClearedLines(numberOfFullLines);
 }
 
 function isGameOver(state: TetrisState) {
-  console.log(state.matrix.slice(0, MatrixUtil.WIDTH));
   return state.matrix.slice(0, MatrixUtil.WIDTH).some((cell) => cell.isSolid);
 }
 

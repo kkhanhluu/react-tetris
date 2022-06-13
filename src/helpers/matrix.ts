@@ -50,7 +50,7 @@ export class MatrixUtil {
   }
 
   static get FullRow(): Tile[] {
-    return new Array(this.WIDTH).fill(new FilledTile());
+    return new Array(this.WIDTH).fill(new FilledTile(true));
   }
 
   static getSpeedDelay(speed: Speed) {
@@ -58,5 +58,20 @@ export class MatrixUtil {
       return null;
     }
     return this.SpeedDelay[speed - 1] ?? this.SpeedDelay[0];
+  }
+
+  static getFullRowsOfBoard(board: Tile[]) {
+    const fullRows: number[] = [];
+    for (let rowIndex = MatrixUtil.HEIGHT - 1; rowIndex >= 0; rowIndex--) {
+      const row = board.slice(
+        rowIndex * MatrixUtil.WIDTH,
+        (rowIndex + 1) * MatrixUtil.WIDTH,
+      );
+      const isRowFullySolid = row.every((cell) => cell.isSolid);
+      if (isRowFullySolid) {
+        fullRows.push(rowIndex);
+      }
+    }
+    return fullRows;
   }
 }
