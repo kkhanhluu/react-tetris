@@ -6,7 +6,8 @@ import { Tile } from 'models/tile/tile';
 export class MatrixUtil {
   static readonly WIDTH = 10;
   static readonly HEIGHT = 20;
-  static SpeedDelay = [700, 600, 450, 320, 240, 160];
+  static SPEED_DELAY = [700, 600, 450, 320, 240, 160];
+  static POINTS = [100, 300, 700, 1500];
 
   static getStartBoard(startLines = 0): Tile[] {
     if (startLines === 0) {
@@ -57,7 +58,7 @@ export class MatrixUtil {
     if (speed === 0) {
       return null;
     }
-    return this.SpeedDelay[speed - 1] ?? this.SpeedDelay[0];
+    return this.SPEED_DELAY[speed - 1] ?? this.SPEED_DELAY[0];
   }
 
   static getFullRowsOfBoard(board: Tile[]) {

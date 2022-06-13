@@ -13,6 +13,8 @@ export interface GameSlice {
   toggleSoundOn: () => void;
   numberOfClearedLines: number;
   setNumberOfClearedLines: (lines: number) => void;
+  point: number;
+  setPoint: (point: number) => void;
 }
 
 export function createGameSlice(
@@ -32,5 +34,8 @@ export function createGameSlice(
       set((state) => ({
         numberOfClearedLines: state.numberOfClearedLines + lines,
       })),
+    point: 0,
+    setPoint: (addedPoints) =>
+      set((state) => ({ point: state.point + addedPoints })),
   };
 }

@@ -11,7 +11,7 @@ export const Board: FunctionComponent = () => {
   const [fullRows, setFullRows] = useState<number[]>();
   const [isClearingFullRows, setIsClearingFullRows] = useState(false);
 
-  const clearAnimate = useCallback(() => {
+  const clearingAnimation = useCallback(() => {
     function animation(callback: () => void) {
       setTimeout(() => {
         setIsAnimating(true);
@@ -36,11 +36,11 @@ export const Board: FunctionComponent = () => {
     const newFullRows = MatrixUtil.getFullRowsOfBoard(store.matrix);
     const shouldClearFullRow = newFullRows.length > 0;
     if (shouldClearFullRow && !isClearingFullRows) {
-      clearAnimate();
+      clearingAnimation();
       setFullRows(newFullRows);
     }
     setIsClearingFullRows(shouldClearFullRow);
-  }, [store.matrix, isClearingFullRows, clearAnimate]);
+  }, [store.matrix, isClearingFullRows, clearingAnimation]);
 
   const animatingRows = fullRows?.map((row) => ({
     min: row * MatrixUtil.WIDTH,

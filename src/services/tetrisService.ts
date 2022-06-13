@@ -1,5 +1,6 @@
 import { MatrixUtil, PieceUtil } from 'helpers';
 import { GameStatus } from 'models/gameStatus';
+import { Speed } from 'models/speed';
 import { EmptyTile } from 'models/tile/emptyTile';
 import { FilledTile } from 'models/tile/filledTile';
 import { TetrisState } from 'store';
@@ -177,10 +178,27 @@ export function clearFullLines(state: TetrisState) {
     }
   }
   state.setMatrix(newMatrix);
-  state.setNumberOfClearedLines(numberOfFullLines);
   state.setCurrentPiece(state.nextPiece);
   state.setNextPiece(state.pieceUtil.getRandomPiece());
+  setPointsAndSpeed(state, numberOfFullLines);
   state.setLocked(false);
+}
+
+function setPointsAndSpeed(state: TetrisState, numberOfClearedLines: number) {
+  if (numberOfClearedLines === 0) {
+    return;
+  }
+  const newClearedLines = state.numberOfClearedLines + numberOfClearedLines;
+  const addedPoints =
+    MatrixUtil.POINTS[numberOfClearedLines - 1] ?? MatrixUtil.POINTS.at(-1);
+
+  const newSpeed = Math.max(
+    state.initSpeed + Math.floor(newClearedLines / MatrixUtil.HEIGHT),
+    6,
+  ) as Speed;
+  state.setPoint(addedPoints);
+  state.setSpeed(newSpeed);
+  state.setNumberOfClearedLines(numberOfClearedLines);
 }
 
 function isGameOver(state: TetrisState) {
