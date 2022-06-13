@@ -5,6 +5,7 @@ import {
   ScreenContainer,
   StateContainer,
 } from 'App.style';
+import classNames from 'classnames';
 import { Board } from 'components/Board';
 import { Clock } from 'components/Clock';
 import { Decoration } from 'components/Decoration';
@@ -159,7 +160,11 @@ function App() {
       onKeyUp={onKeyUp}
     >
       <Container style={css}>
-        <Rect>
+        <Rect
+          className={classNames({
+            drop: store.isKeyDropActive && store.status === GameStatus.Started,
+          })}
+        >
           <Decoration />
           <ScreenContainer>
             <Panel>
