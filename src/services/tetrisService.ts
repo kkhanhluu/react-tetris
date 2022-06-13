@@ -18,7 +18,7 @@ export function start(state: TetrisState) {
   state.setGameStatus(GameStatus.Started);
   state.setSpeed(state.initSpeed);
   state.setLocked(false);
-  // TODO: update other game state like started, point, speed,...
+  state.setMatrix(MatrixUtil.getStartBoard(state.initNumberOfLines));
 }
 
 export function moveDown(state: TetrisState) {
@@ -126,7 +126,7 @@ export function pause(state: TetrisState) {
     return;
   }
   state.setLocked(true);
-  state.setSpeed(0);
+  state.setPaused(true);
   state.setGameStatus(GameStatus.Paused);
 }
 
@@ -135,7 +135,7 @@ export function resume(state: TetrisState) {
     return;
   }
   state.setLocked(false);
-  state.setSpeed(state.initSpeed);
+  state.setPaused(false);
   state.setGameStatus(GameStatus.Started);
 }
 function drawPiece(state: TetrisState) {
@@ -192,10 +192,11 @@ function setPointsAndSpeed(state: TetrisState, numberOfClearedLines: number) {
   const addedPoints =
     MatrixUtil.POINTS[numberOfClearedLines - 1] ?? MatrixUtil.POINTS.at(-1);
 
-  const newSpeed = Math.max(
-    state.initSpeed + Math.floor(newClearedLines / MatrixUtil.HEIGHT),
-    6,
-  ) as Speed;
+  const newSpeed = (state.initSpeed +
+    Math.max(
+      state.initSpeed + Math.floor(newClearedLines / MatrixUtil.HEIGHT),
+      6,
+    )) as Speed;
   state.setPoint(addedPoints);
   state.setSpeed(newSpeed);
   state.setNumberOfClearedLines(numberOfClearedLines);

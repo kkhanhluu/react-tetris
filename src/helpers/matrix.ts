@@ -55,9 +55,6 @@ export class MatrixUtil {
   }
 
   static getSpeedDelay(speed: Speed) {
-    if (speed === 0) {
-      return null;
-    }
     return this.SPEED_DELAY[speed - 1] ?? this.SPEED_DELAY[0];
   }
 

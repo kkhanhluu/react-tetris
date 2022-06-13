@@ -15,6 +15,11 @@ export interface GameSlice {
   setNumberOfClearedLines: (lines: number) => void;
   point: number;
   setPoint: (point: number) => void;
+  initNumberOfLines: number;
+  increaseInitNumberOfLines: () => void;
+  decreaseInitNumberOfLines: () => void;
+  paused: boolean;
+  setPaused: (paused: boolean) => void;
 }
 
 export function createGameSlice(
@@ -24,7 +29,7 @@ export function createGameSlice(
   return {
     setGameStatus: (status) => set({ status }),
     status: GameStatus.Loading,
-    speed: 0,
+    speed: 1,
     initSpeed: 1,
     setSpeed: (speed) => set({ speed }),
     isSoundOn: true,
@@ -37,5 +42,12 @@ export function createGameSlice(
     point: 0,
     setPoint: (addedPoints) =>
       set((state) => ({ point: state.point + addedPoints })),
+    initNumberOfLines: 0,
+    increaseInitNumberOfLines: () =>
+      set((state) => ({ initNumberOfLines: state.initNumberOfLines + 1 })),
+    decreaseInitNumberOfLines: () =>
+      set((state) => ({ initNumberOfLines: state.initNumberOfLines - 1 })),
+    paused: false,
+    setPaused: (paused) => set({ paused }),
   };
 }

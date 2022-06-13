@@ -38,9 +38,12 @@ function App() {
   const ref = useRef(store);
   ref.current = store;
 
-  useInterval(() => {
-    update(ref.current);
-  }, MatrixUtil.getSpeedDelay(ref.current.speed));
+  useInterval(
+    () => {
+      update(ref.current);
+    },
+    ref.current.paused ? 0 : MatrixUtil.getSpeedDelay(ref.current.speed),
+  );
 
   function onKeyDown({ key }: React.KeyboardEvent) {
     switch (key) {
@@ -53,8 +56,12 @@ function App() {
         start(store);
         break;
       case 'ArrowDown':
-        store.setKey({ isKeyDownActive: true });
-        moveDown(store);
+        if (store.status === GameStatus.Started) {
+          store.setKey({ isKeyDownActive: true });
+          moveDown(store);
+        } else if (store.status === GameStatus.Loading) {
+          store.decreaseInitNumberOfLines();
+        }
         break;
       case 'ArrowLeft':
         store.setKey({ isKeyLeftActive: true });
@@ -65,8 +72,12 @@ function App() {
         moveRight(store);
         break;
       case 'ArrowUp':
-        store.setKey({ isKeyUpActive: true });
-        rotate(store);
+        if (store.status === GameStatus.Started) {
+          store.setKey({ isKeyUpActive: true });
+          rotate(store);
+        } else if (store.status === GameStatus.Loading) {
+          store.increaseInitNumberOfLines();
+        }
         break;
       case 'r':
         store.setKey({ isKeyResetActive: true });

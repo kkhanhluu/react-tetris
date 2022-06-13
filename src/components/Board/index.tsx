@@ -44,7 +44,7 @@ export const Board: FunctionComponent = () => {
 
   const animatingRows = fullRows?.map((row) => ({
     min: row * MatrixUtil.WIDTH,
-    max: row * MatrixUtil.WIDTH + MatrixUtil.WIDTH,
+    max: (row + 1) * MatrixUtil.WIDTH - 1,
   }));
 
   return (
