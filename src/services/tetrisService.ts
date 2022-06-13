@@ -99,11 +99,12 @@ export function update(state: TetrisState) {
       newMatrix[position] = new FilledTile(true);
     });
     state.setMatrix(newMatrix);
-    // const numberOfClearedLines = clearFullLines(newMatrix);
 
-    state.setCurrentPiece(state.nextPiece);
-    state.setNextPiece(state.pieceUtil.getRandomPiece());
-    state.setLocked(false);
+    if (MatrixUtil.getFullRowsOfBoard(newMatrix).length <= 0) {
+      state.setCurrentPiece(state.nextPiece);
+      state.setNextPiece(state.pieceUtil.getRandomPiece());
+      state.setLocked(false);
+    }
 
     if (isGameOver(state)) {
       onGameOver(state);
@@ -177,6 +178,9 @@ export function clearFullLines(state: TetrisState) {
   }
   state.setMatrix(newMatrix);
   state.setNumberOfClearedLines(numberOfFullLines);
+  state.setCurrentPiece(state.nextPiece);
+  state.setNextPiece(state.pieceUtil.getRandomPiece());
+  state.setLocked(false);
 }
 
 function isGameOver(state: TetrisState) {

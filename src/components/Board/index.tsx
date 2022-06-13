@@ -49,7 +49,7 @@ export const Board: FunctionComponent = () => {
 
   return (
     <StyledBoard className="game-board">
-      {store.matrix.map(({ isFilled, isSolid }, index) => {
+      {store.matrix.map(({ isFilled, isSolid, isAnimated }, index) => {
         const shouldCellBeAnimated = animatingRows?.some(
           ({ min, max }) => index >= min && index <= max,
         );
@@ -57,7 +57,10 @@ export const Board: FunctionComponent = () => {
           <Tile
             index={index}
             key={index}
-            isAnimated={isAnimating && shouldCellBeAnimated}
+            isAnimated={
+              (isAnimating && shouldCellBeAnimated) ||
+              (isAnimated && !isClearingFullRows)
+            }
             isFilled={isFilled}
             isSolid={isSolid}
           />
