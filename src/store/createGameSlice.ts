@@ -20,6 +20,8 @@ export interface GameSlice {
   decreaseInitNumberOfLines: () => void;
   paused: boolean;
   setPaused: (paused: boolean) => void;
+  isResetting: boolean;
+  setIsResetting: (isResetting: boolean) => void;
 }
 
 export function createGameSlice(
@@ -36,8 +38,8 @@ export function createGameSlice(
     toggleSoundOn: () => set((state) => ({ isSoundOn: !state.isSoundOn })),
     numberOfClearedLines: 0,
     setNumberOfClearedLines: (lines) =>
-      set((state) => ({
-        numberOfClearedLines: state.numberOfClearedLines + lines,
+      set(() => ({
+        numberOfClearedLines: lines,
       })),
     point: 0,
     setPoint: (addedPoints) =>
@@ -49,5 +51,7 @@ export function createGameSlice(
       set((state) => ({ initNumberOfLines: state.initNumberOfLines - 1 })),
     paused: false,
     setPaused: (paused) => set({ paused }),
+    isResetting: false,
+    setIsResetting: (isResetting) => set({ isResetting }),
   };
 }

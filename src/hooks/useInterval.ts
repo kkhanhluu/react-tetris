@@ -13,10 +13,7 @@ function useInterval(callback: () => void, delay: number | null) {
 
     const id = setInterval(() => savedCallback.current(), delay);
 
-    return () => {
-      console.log('UNSUB');
-      clearInterval(id);
-    };
+    return () => clearInterval(id);
   }, [delay]);
 }
 

@@ -1,5 +1,6 @@
 import { Tile } from 'components/Tile';
 import { MatrixUtil } from 'helpers';
+import { Tile as TileModel } from 'models/tile/tile';
 import { FunctionComponent, useCallback, useEffect, useState } from 'react';
 import { clearFullLines } from 'services/tetrisService';
 import { useStore } from 'store';
@@ -10,6 +11,8 @@ export const Board: FunctionComponent = () => {
   const [isAnimating, setIsAnimating] = useState(false);
   const [fullRows, setFullRows] = useState<number[]>();
   const [isClearingFullRows, setIsClearingFullRows] = useState(false);
+  const [overState, setOverState] = useState<TileModel[]>();
+  const [isOver, setIsOver] = useState(false);
 
   const clearingAnimation = useCallback(() => {
     function animation(callback: () => void) {
@@ -32,24 +35,69 @@ export const Board: FunctionComponent = () => {
     });
   }, [store]);
 
+  const resettingAnimation = useCallback(() => {
+    setOverState([...store.matrix]);
+    const newOverState = [...store.matrix];
+
+    for (let i = 0; i <= 40; i++) {
+      setTimeout(() => {
+        if (i <= 19) {
+          newOverState.splice(
+            (19 - i) * MatrixUtil.WIDTH,
+            MatrixUtil.WIDTH,
+            ...MatrixUtil.FullRow,
+          );
+          setOverState([...newOverState]);
+        } else if (i >= 20 && i <= 39) {
+          newOverState.splice(
+            (i - 20) * MatrixUtil.WIDTH,
+            MatrixUtil.WIDTH,
+            ...MatrixUtil.EmptyRow,
+          );
+          setOverState(() => {
+            return [...newOverState];
+          });
+        } else {
+          store.setMatrix(MatrixUtil.getStartBoard());
+          store.setIsResetting(false);
+          store.setLocked(false);
+          store.setNumberOfClearedLines(0);
+          return;
+        }
+      }, 40 * (i + 1));
+    }
+  }, [store]);
+
   useEffect(() => {
     const newFullRows = MatrixUtil.getFullRowsOfBoard(store.matrix);
     const shouldClearFullRow = newFullRows.length > 0;
     if (shouldClearFullRow && !isClearingFullRows) {
       clearingAnimation();
       setFullRows(newFullRows);
+    } else if (store.isResetting && !isOver) {
+      resettingAnimation();
     }
+    setIsOver(store.isResetting);
     setIsClearingFullRows(shouldClearFullRow);
-  }, [store.matrix, isClearingFullRows, clearingAnimation]);
+  }, [
+    store.matrix,
+    store.isResetting,
+    isOver,
+    isClearingFullRows,
+    clearingAnimation,
+    resettingAnimation,
+  ]);
 
   const animatingRows = fullRows?.map((row) => ({
     min: row * MatrixUtil.WIDTH,
     max: (row + 1) * MatrixUtil.WIDTH - 1,
   }));
 
+  const board = isOver ? (overState as TileModel[]) : store.matrix;
+
   return (
     <StyledBoard className="game-board">
-      {store.matrix.map(({ isFilled, isSolid, isAnimated }, index) => {
+      {board.map(({ isFilled, isSolid, isAnimated }, index) => {
         const shouldCellBeAnimated = animatingRows?.some(
           ({ min, max }) => index >= min && index <= max,
         );

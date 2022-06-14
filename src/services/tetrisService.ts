@@ -118,7 +118,10 @@ export function update(state: TetrisState) {
 }
 
 export function reset(state: TetrisState) {
-  createInitialState(state);
+  if (state.status === GameStatus.Started) {
+    state.setIsResetting(true);
+    createInitialState(state);
+  }
 }
 
 export function pause(state: TetrisState) {
@@ -199,7 +202,7 @@ function setPointsAndSpeed(state: TetrisState, numberOfClearedLines: number) {
     )) as Speed;
   state.setPoint(addedPoints);
   state.setSpeed(newSpeed);
-  state.setNumberOfClearedLines(numberOfClearedLines);
+  state.setNumberOfClearedLines(newClearedLines);
 }
 
 function isGameOver(state: TetrisState) {
