@@ -12,6 +12,7 @@ import { Decoration } from 'components/Decoration';
 import { Keyboard } from 'components/Keyboard';
 import { Level } from 'components/Level';
 import { Line } from 'components/Line';
+import { Logo } from 'components/Logo';
 import { Music } from 'components/Music';
 import { NextPiece } from 'components/NextPiece';
 import { Pause } from 'components/Pause';
@@ -169,6 +170,7 @@ function App() {
           <ScreenContainer>
             <Panel>
               <Board />
+              <Logo />
               <StateContainer className="state">
                 <Point />
                 <Line />
