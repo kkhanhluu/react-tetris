@@ -1,6 +1,7 @@
 import { MatrixUtil, PieceUtil } from 'helpers';
 import { GameStatus } from 'models/gameStatus';
 import { Speed } from 'models/speed';
+import { AnimatedTile } from 'models/tile/animatedTile';
 import { EmptyTile } from 'models/tile/emptyTile';
 import { FilledTile } from 'models/tile/filledTile';
 import { TetrisState } from 'store';
@@ -97,7 +98,7 @@ export function update(state: TetrisState) {
     // draw filled tile in board
     const newMatrix = structuredClone(state.matrix);
     state.currentPiece.revert()?.positionOnGrid.forEach((position) => {
-      newMatrix[position] = new FilledTile(true);
+      newMatrix[position] = new AnimatedTile(true);
     });
     state.setMatrix(newMatrix);
 
@@ -118,7 +119,10 @@ export function update(state: TetrisState) {
 }
 
 export function reset(state: TetrisState) {
-  if (state.status === GameStatus.Started) {
+  if (
+    state.status === GameStatus.Started ||
+    state.status === GameStatus.Paused
+  ) {
     state.setIsResetting(true);
     createInitialState(state);
   }
@@ -197,7 +201,7 @@ function setPointsAndSpeed(state: TetrisState, numberOfClearedLines: number) {
 
   const newSpeed = (state.initSpeed +
     Math.max(
-      state.initSpeed + Math.floor(newClearedLines / MatrixUtil.HEIGHT),
+      state.initSpeed + Math.floor(newClearedLines / (MatrixUtil.HEIGHT / 2)),
       6,
     )) as Speed;
   state.setPoint(addedPoints);
