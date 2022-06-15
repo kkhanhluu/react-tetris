@@ -216,7 +216,7 @@ function isGameOver(state: TetrisState) {
 }
 
 function onGameOver(state: TetrisState) {
-  alert('Game Over');
+  state.setIsResetting(true);
   createInitialState(state);
   AudioService.gameOver(state.isSoundOn);
 }
