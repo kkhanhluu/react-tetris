@@ -1,0 +1,29 @@
+name: CD
+on:
+  push:
+    branches:
+      - main
+jobs:
+  lint:
+    name: Lint & Format & Deploy
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: Setup node
+        uses: actions/setup-node@v3
+        with:
+          node-version: '16.x'
+          registry-url: //npm.pkg.github.com/
+      - name: Install Packages
+        run: yarn install --frozen-lockfile
+      - name: Lint
+        run: yarn run lint
+      - name: Format
+        run: yarn run format
+      - name: Build
+        run: yarn run build
+      - name: Deploy to GitHub Pages
+        uses: JamesIves/github-pages-deploy-action@v4.3.3
+        with:
+          branch: gh-pages
+          folder: dist

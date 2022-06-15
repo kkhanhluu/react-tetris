@@ -103,7 +103,6 @@ export const Board: FunctionComponent = () => {
         );
         return (
           <Tile
-            index={index}
             key={index}
             isAnimated={
               (isAnimating && shouldCellBeAnimated) ||
