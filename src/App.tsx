@@ -37,7 +37,9 @@ function App() {
     () => {
       update(ref.current);
     },
-    ref.current.paused ? 0 : MatrixUtil.getSpeedDelay(ref.current.speed),
+    ref.current.paused || ref.current.status !== GameStatus.Started
+      ? null
+      : MatrixUtil.getSpeedDelay(ref.current.speed),
   );
 
   function onKeyDown({ key }: React.KeyboardEvent) {

@@ -6,7 +6,7 @@ import { Tile } from 'models/tile/tile';
 export class MatrixUtil {
   static readonly WIDTH = 10;
   static readonly HEIGHT = 20;
-  static SPEED_DELAY = [700, 600, 450, 320, 240, 160];
+  static SPEED_DELAY = [560, 480, 360, 256, 192, 128];
   static POINTS = [100, 300, 700, 1500];
 
   static getStartBoard(startLines = 0): Tile[] {

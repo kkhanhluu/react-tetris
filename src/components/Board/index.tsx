@@ -2,6 +2,7 @@ import { Tile } from 'components/Tile';
 import { MatrixUtil } from 'helpers';
 import { Tile as TileModel } from 'models/tile/tile';
 import { FunctionComponent, useCallback, useEffect, useState } from 'react';
+import { AudioService } from 'services/audioService';
 import { clearFullLines } from 'services/tetrisService';
 import { useStore } from 'store';
 import { StyledBoard } from './style';
@@ -72,6 +73,7 @@ export const Board: FunctionComponent = () => {
     const newFullRows = MatrixUtil.getFullRowsOfBoard(store.matrix);
     const shouldClearFullRow = newFullRows.length > 0;
     if (shouldClearFullRow && !isClearingFullRows) {
+      AudioService.clear(store.isSoundOn);
       clearingAnimation();
       setFullRows(newFullRows);
     } else if (store.isResetting && !isOver) {
@@ -82,6 +84,7 @@ export const Board: FunctionComponent = () => {
   }, [
     store.matrix,
     store.isResetting,
+    store.isSoundOn,
     isOver,
     isClearingFullRows,
     clearingAnimation,

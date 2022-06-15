@@ -190,7 +190,6 @@ export function clearFullLines(state: TetrisState) {
   state.setNextPiece(state.pieceUtil.getRandomPiece());
   setPointsAndSpeed(state, numberOfFullLines);
   state.setLocked(false);
-  AudioService.clear(state.isSoundOn);
 }
 
 function setPointsAndSpeed(state: TetrisState, numberOfClearedLines: number) {
