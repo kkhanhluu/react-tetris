@@ -5,7 +5,7 @@ const AudioContext =
   (window as any).oAudioContext ||
   (window as any).msAudioContext;
 
-const AUDIO_PATH = '/assets/sound.mp3';
+const AUDIO_PATH = new URL('../assets/sound.mp3', import.meta.url).href;
 
 export class AudioService {
   private static audioCtx: AudioContext;
@@ -65,6 +65,7 @@ export class AudioService {
               resolve(this.getSource(audioContext, buf));
             },
             (err) => {
+              console.log(err);
               alert('Playing audio is not supported in this browser :(');
               reject(err);
             },
