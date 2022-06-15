@@ -1,5 +1,6 @@
 import { GameStatus } from 'models/gameStatus';
 import { TetrisState } from 'store';
+import { AudioService } from './audioService';
 import {
   drop,
   moveDown,
@@ -18,9 +19,11 @@ export function keyDownEventHandler(key: string, store: TetrisState) {
       store.setKey({ isKeyDropActive: true });
       if (store.currentPiece) {
         drop(store);
+        AudioService.fall(store.isSoundOn);
         return;
       }
       start(store);
+      AudioService.start(store.isSoundOn);
       break;
     case 'ArrowDown':
       if (store.status === GameStatus.Started) {
@@ -29,19 +32,23 @@ export function keyDownEventHandler(key: string, store: TetrisState) {
       } else if (store.status === GameStatus.Loading) {
         store.decreaseInitNumberOfLines();
       }
+      AudioService.move(store.isSoundOn);
       break;
     case 'ArrowLeft':
       store.setKey({ isKeyLeftActive: true });
       moveLeft(store);
+      AudioService.move(store.isSoundOn);
       break;
     case 'ArrowRight':
       store.setKey({ isKeyRightActive: true });
       moveRight(store);
+      AudioService.move(store.isSoundOn);
       break;
     case 'ArrowUp':
       if (store.status === GameStatus.Started) {
         store.setKey({ isKeyUpActive: true });
         rotate(store);
+        AudioService.rotate(store.isSoundOn);
       } else if (store.status === GameStatus.Loading) {
         store.increaseInitNumberOfLines();
       }

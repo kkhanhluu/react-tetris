@@ -5,6 +5,7 @@ import { AnimatedTile } from 'models/tile/animatedTile';
 import { EmptyTile } from 'models/tile/emptyTile';
 import { FilledTile } from 'models/tile/filledTile';
 import { TetrisState } from 'store';
+import { AudioService } from './audioService';
 import {
   doesCollideBottom,
   doesCollideLeft,
@@ -189,6 +190,7 @@ export function clearFullLines(state: TetrisState) {
   state.setNextPiece(state.pieceUtil.getRandomPiece());
   setPointsAndSpeed(state, numberOfFullLines);
   state.setLocked(false);
+  AudioService.clear(state.isSoundOn);
 }
 
 function setPointsAndSpeed(state: TetrisState, numberOfClearedLines: number) {
@@ -216,6 +218,7 @@ function isGameOver(state: TetrisState) {
 function onGameOver(state: TetrisState) {
   alert('Game Over');
   createInitialState(state);
+  AudioService.gameOver(state.isSoundOn);
 }
 
 function createInitialState(state: TetrisState) {
