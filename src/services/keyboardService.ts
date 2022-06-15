@@ -13,61 +13,93 @@ import {
   start,
 } from './tetrisService';
 
+export function spaceButtonClickHandler(store: TetrisState) {
+  store.setKey({ isKeyDropActive: true });
+  if (store.currentPiece) {
+    drop(store);
+    AudioService.fall(store.isSoundOn);
+    return;
+  }
+  start(store);
+  AudioService.start(store.isSoundOn);
+}
+
+export function arrowDownButtonClickHandler(store: TetrisState) {
+  if (store.status === GameStatus.Started) {
+    store.setKey({ isKeyDownActive: true });
+    moveDown(store);
+  } else if (store.status === GameStatus.Loading) {
+    store.decreaseInitNumberOfLines();
+  }
+  AudioService.move(store.isSoundOn);
+}
+
+export function arrowLeftButtonClickHandler(store: TetrisState) {
+  store.setKey({ isKeyLeftActive: true });
+  moveLeft(store);
+  AudioService.move(store.isSoundOn);
+}
+
+export function arrowRightButtonClickHandler(store: TetrisState) {
+  store.setKey({ isKeyRightActive: true });
+  moveRight(store);
+  AudioService.move(store.isSoundOn);
+}
+
+export function arrowUpButtonClickHandler(store: TetrisState) {
+  if (store.status === GameStatus.Started) {
+    store.setKey({ isKeyUpActive: true });
+    rotate(store);
+    AudioService.rotate(store.isSoundOn);
+  } else if (store.status === GameStatus.Loading) {
+    store.increaseInitNumberOfLines();
+  }
+}
+
+export function resetButtonClickHandler(store: TetrisState) {
+  store.setKey({ isKeyResetActive: true });
+  reset(store);
+}
+
+export function pauseButtonClickHandler(store: TetrisState) {
+  store.setKey({ isKeyPauseActive: true });
+  if (store.status !== GameStatus.Started) {
+    resume(store);
+  } else {
+    pause(store);
+  }
+}
+
+export function soundButtonClickHandler(store: TetrisState) {
+  store.setKey({ isKeySoundActive: true });
+  store.toggleSoundOn();
+}
+
 export function keyDownEventHandler(key: string, store: TetrisState) {
   switch (key) {
     case ' ':
-      store.setKey({ isKeyDropActive: true });
-      if (store.currentPiece) {
-        drop(store);
-        AudioService.fall(store.isSoundOn);
-        return;
-      }
-      start(store);
-      AudioService.start(store.isSoundOn);
+      spaceButtonClickHandler(store);
       break;
     case 'ArrowDown':
-      if (store.status === GameStatus.Started) {
-        store.setKey({ isKeyDownActive: true });
-        moveDown(store);
-      } else if (store.status === GameStatus.Loading) {
-        store.decreaseInitNumberOfLines();
-      }
-      AudioService.move(store.isSoundOn);
+      arrowDownButtonClickHandler(store);
       break;
     case 'ArrowLeft':
-      store.setKey({ isKeyLeftActive: true });
-      moveLeft(store);
-      AudioService.move(store.isSoundOn);
+      arrowLeftButtonClickHandler(store);
       break;
     case 'ArrowRight':
-      store.setKey({ isKeyRightActive: true });
-      moveRight(store);
-      AudioService.move(store.isSoundOn);
+      arrowRightButtonClickHandler(store);
       break;
     case 'ArrowUp':
-      if (store.status === GameStatus.Started) {
-        store.setKey({ isKeyUpActive: true });
-        rotate(store);
-        AudioService.rotate(store.isSoundOn);
-      } else if (store.status === GameStatus.Loading) {
-        store.increaseInitNumberOfLines();
-      }
+      arrowUpButtonClickHandler(store);
       break;
     case 'r':
-      store.setKey({ isKeyResetActive: true });
-      reset(store);
+      resetButtonClickHandler(store);
       break;
     case 'p':
-      store.setKey({ isKeyPauseActive: true });
-      if (store.status !== GameStatus.Started) {
-        resume(store);
-      } else {
-        pause(store);
-      }
+      pauseButtonClickHandler(store);
       break;
     case 's':
-      store.setKey({ isKeySoundActive: true });
-      store.toggleSoundOn();
+      soundButtonClickHandler(store);
       break;
     default:
       break;

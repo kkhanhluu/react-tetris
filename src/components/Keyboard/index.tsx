@@ -1,5 +1,15 @@
 import { Button } from 'components/Keyboard/Button';
 import { FunctionComponent } from 'react';
+import {
+  arrowDownButtonClickHandler,
+  arrowLeftButtonClickHandler,
+  arrowRightButtonClickHandler,
+  arrowUpButtonClickHandler,
+  pauseButtonClickHandler,
+  resetButtonClickHandler,
+  soundButtonClickHandler,
+  spaceButtonClickHandler,
+} from 'services/keyboardService';
 import { useStore } from 'store';
 import { KeyboardContainer } from './style';
 
@@ -15,6 +25,7 @@ export const Keyboard: FunctionComponent = () => {
         label="Rotate"
         arrow="translate(0, 63px)"
         isPositionAbsolute
+        onClick={() => arrowUpButtonClickHandler(store)}
         active={store.isKeyUpActive}
       />
       <Button
@@ -23,6 +34,7 @@ export const Keyboard: FunctionComponent = () => {
         top={180}
         left={374}
         label="Down"
+        onClick={() => arrowDownButtonClickHandler(store)}
         arrow="translate(0,-71px) rotate(180deg)"
         active={store.isKeyDownActive}
       />
@@ -34,6 +46,7 @@ export const Keyboard: FunctionComponent = () => {
         label="Left"
         arrow="translate(60px, -12px) rotate(270deg)"
         active={store.isKeyLeftActive}
+        onClick={() => arrowLeftButtonClickHandler(store)}
       />
       <Button
         color="blue"
@@ -43,6 +56,7 @@ export const Keyboard: FunctionComponent = () => {
         label="Right"
         arrow="translate(-60px, -12px) rotate(90deg)"
         active={store.isKeyRightActive}
+        onClick={() => arrowRightButtonClickHandler(store)}
       />
       <Button
         color="blue"
@@ -51,6 +65,7 @@ export const Keyboard: FunctionComponent = () => {
         left={52}
         label="Drop (SPACE)"
         active={store.isKeyDropActive}
+        onClick={() => spaceButtonClickHandler(store)}
       />
       <Button
         color="red"
@@ -59,6 +74,7 @@ export const Keyboard: FunctionComponent = () => {
         left={196}
         label="Reset (R)"
         active={store.isKeyResetActive}
+        onClick={() => resetButtonClickHandler(store)}
       />
       <Button
         color="green"
@@ -67,6 +83,7 @@ export const Keyboard: FunctionComponent = () => {
         left={106}
         label="Sound(S)"
         active={store.isKeySoundActive}
+        onClick={() => soundButtonClickHandler(store)}
       />
       <Button
         color="green"
@@ -75,6 +92,7 @@ export const Keyboard: FunctionComponent = () => {
         left={16}
         label="Pause(P)"
         active={store.isKeyPauseActive}
+        onClick={() => pauseButtonClickHandler(store)}
       />
     </KeyboardContainer>
   );
