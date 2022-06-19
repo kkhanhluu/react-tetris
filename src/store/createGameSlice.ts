@@ -51,7 +51,7 @@ export function createGameSlice(
       set((state) => ({ initNumberOfLines: state.initNumberOfLines - 1 })),
     paused: false,
     setPaused: (paused) => set({ paused }),
-    isResetting: false,
+    isResetting: true,
     setIsResetting: (isResetting) => set({ isResetting }),
   };
 }

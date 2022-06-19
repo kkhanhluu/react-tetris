@@ -30,8 +30,8 @@ export const Logo: FunctionComponent = () => {
 
   const store = useStore();
   const showLogo =
-    store.status === GameStatus.Loading ||
-    (store.status === GameStatus.Over && !store.isResetting);
+    !store.isResetting &&
+    (store.status === GameStatus.Loading || store.status === GameStatus.Over);
 
   return showLogo ? (
     <LogoContainer>

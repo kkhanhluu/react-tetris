@@ -17,6 +17,7 @@ import { Music } from 'components/Music';
 import { NextPiece } from 'components/NextPiece';
 import { Pause } from 'components/Pause';
 import { Point } from 'components/Point';
+import { Social } from 'components/Social';
 import { MatrixUtil } from 'helpers';
 import useInterval from 'hooks/useInterval';
 import { GameStatus } from 'models/gameStatus';
@@ -103,6 +104,7 @@ function App() {
           </ScreenContainer>
         </Rect>
         <Keyboard />
+        <Social />
       </Container>
     </div>
   );
