@@ -1,20 +1,61 @@
 import { Button } from 'components/Keyboard/Button';
-import { FunctionComponent } from 'react';
+import { FunctionComponent, useRef } from 'react';
 import {
-  arrowDownButtonClickHandler,
-  arrowLeftButtonClickHandler,
-  arrowRightButtonClickHandler,
-  arrowUpButtonClickHandler,
-  pauseButtonClickHandler,
-  resetButtonClickHandler,
-  soundButtonClickHandler,
-  spaceButtonClickHandler,
+  keyDownEventHandler,
+  keyUpEventHandler,
 } from 'services/keyboardService';
 import { useStore } from 'store';
 import { KeyboardContainer } from './style';
 
+type KeyboardKey =
+  | 'ArrowUp'
+  | 'ArrowDown'
+  | 'ArrowLeft'
+  | 'ArrowRight'
+  | 'Space'
+  | 'r'
+  | 's'
+  | 'p';
+
 export const Keyboard: FunctionComponent = () => {
   const store = useStore();
+  const touchEvent = useRef({
+    ArrowUp: false,
+    ArrowDown: false,
+    ArrowLeft: false,
+    ArrowRight: false,
+    Space: false,
+    r: false,
+    p: false,
+    s: false,
+  });
+
+  function mouseDownHandler(keyboard: KeyboardKey) {
+    const key = keyboard === 'Space' ? ' ' : keyboard;
+    if (touchEvent.current[keyboard]) {
+      return;
+    }
+    keyDownEventHandler(key, store);
+    touchEvent.current[keyboard] = true;
+  }
+
+  function mouseUpHandler(keyboard: KeyboardKey) {
+    const key = keyboard === 'Space' ? ' ' : keyboard;
+    if (touchEvent.current[keyboard]) {
+      touchEvent.current[keyboard] = false;
+      return;
+    }
+    keyUpEventHandler(key, store);
+    touchEvent.current[keyboard] = false;
+  }
+
+  function touchStartHandler(keyboard: KeyboardKey) {
+    const key = keyboard === 'Space' ? ' ' : keyboard;
+
+    touchEvent.current[keyboard] = true;
+    keyDownEventHandler(key, store);
+  }
+
   return (
     <KeyboardContainer>
       <Button
@@ -25,7 +66,10 @@ export const Keyboard: FunctionComponent = () => {
         label="Rotate"
         arrow="translate(0, 63px)"
         isPositionAbsolute
-        onClick={() => arrowUpButtonClickHandler(store)}
+        onMouseDown={() => mouseDownHandler('ArrowUp')}
+        onMouseUp={() => mouseUpHandler('ArrowUp')}
+        onTouchStart={() => touchStartHandler('ArrowUp')}
+        onTouchEnd={() => keyUpEventHandler('ArrowUp', store)}
         active={store.isKeyUpActive}
       />
       <Button
@@ -34,7 +78,10 @@ export const Keyboard: FunctionComponent = () => {
         top={180}
         left={374}
         label="Down"
-        onClick={() => arrowDownButtonClickHandler(store)}
+        onMouseDown={() => mouseDownHandler('ArrowDown')}
+        onMouseUp={() => mouseUpHandler('ArrowDown')}
+        onTouchStart={() => touchStartHandler('ArrowDown')}
+        onTouchEnd={() => keyUpEventHandler('ArrowDown', store)}
         arrow="translate(0,-71px) rotate(180deg)"
         active={store.isKeyDownActive}
       />
@@ -46,7 +93,10 @@ export const Keyboard: FunctionComponent = () => {
         label="Left"
         arrow="translate(60px, -12px) rotate(270deg)"
         active={store.isKeyLeftActive}
-        onClick={() => arrowLeftButtonClickHandler(store)}
+        onMouseDown={() => mouseDownHandler('ArrowLeft')}
+        onMouseUp={() => mouseUpHandler('ArrowLeft')}
+        onTouchStart={() => touchStartHandler('ArrowLeft')}
+        onTouchEnd={() => keyUpEventHandler('ArrowLeft', store)}
       />
       <Button
         color="blue"
@@ -56,7 +106,10 @@ export const Keyboard: FunctionComponent = () => {
         label="Right"
         arrow="translate(-60px, -12px) rotate(90deg)"
         active={store.isKeyRightActive}
-        onClick={() => arrowRightButtonClickHandler(store)}
+        onMouseDown={() => mouseDownHandler('ArrowRight')}
+        onMouseUp={() => mouseUpHandler('ArrowRight')}
+        onTouchStart={() => touchStartHandler('ArrowRight')}
+        onTouchEnd={() => keyUpEventHandler('ArrowRight', store)}
       />
       <Button
         color="blue"
@@ -65,7 +118,10 @@ export const Keyboard: FunctionComponent = () => {
         left={52}
         label="Drop (SPACE)"
         active={store.isKeyDropActive}
-        onClick={() => spaceButtonClickHandler(store)}
+        onMouseDown={() => mouseDownHandler('Space')}
+        onMouseUp={() => mouseUpHandler('Space')}
+        onTouchStart={() => touchStartHandler('Space')}
+        onTouchEnd={() => keyUpEventHandler(' ', store)}
       />
       <Button
         color="red"
@@ -74,7 +130,10 @@ export const Keyboard: FunctionComponent = () => {
         left={196}
         label="Reset (R)"
         active={store.isKeyResetActive}
-        onClick={() => resetButtonClickHandler(store)}
+        onMouseDown={() => mouseDownHandler('r')}
+        onMouseUp={() => mouseUpHandler('r')}
+        onTouchStart={() => touchStartHandler('r')}
+        onTouchEnd={() => keyUpEventHandler('r', store)}
       />
       <Button
         color="green"
@@ -83,7 +142,10 @@ export const Keyboard: FunctionComponent = () => {
         left={106}
         label="Sound(S)"
         active={store.isKeySoundActive}
-        onClick={() => soundButtonClickHandler(store)}
+        onMouseDown={() => mouseDownHandler('s')}
+        onMouseUp={() => mouseUpHandler('s')}
+        onTouchStart={() => touchStartHandler('s')}
+        onTouchEnd={() => keyUpEventHandler('s', store)}
       />
       <Button
         color="green"
@@ -92,7 +154,10 @@ export const Keyboard: FunctionComponent = () => {
         left={16}
         label="Pause(P)"
         active={store.isKeyPauseActive}
-        onClick={() => pauseButtonClickHandler(store)}
+        onMouseDown={() => mouseDownHandler('s')}
+        onMouseUp={() => mouseUpHandler('s')}
+        onTouchStart={() => touchStartHandler('s')}
+        onTouchEnd={() => keyUpEventHandler('s', store)}
       />
     </KeyboardContainer>
   );
