@@ -1,6 +1,8 @@
 # React Tetris 
 The classic tetris game built with React, Zustand, Styled Component and vite. 
 
+![react tetris demo](https://media.giphy.com/media/pteELGFZlrbLosmbiR/giphy.gif)
+
 Check out [live demo](https://kkhanhluu.github.io/react-tetris/)
 
 Turn on your sound  🔊 to enjoy the game. 
@@ -18,7 +20,7 @@ Turn on your sound  🔊 to enjoy the game.
 - Run `yarn dev` to start the dev server 
 
 ## Acknowledgement
-- This repository is highly inspired by [Angular tetris](https://github.com/trungk18/angular-tetris) and [this project](https://github.com/chvin/react-tetris/blob/master/README-EN.md). 
+- This repository is highly inspired by [Angular tetris](https://github.com/trungk18/angular-tetris) and [this react tetris](https://github.com/chvin/react-tetris/blob/master/README-EN.md). 
 - The animation was built with the help of [the useInterval hook from Dan Abramov](https://overreacted.io/making-setinterval-declarative-with-react-hooks/)
 
 ## Support
