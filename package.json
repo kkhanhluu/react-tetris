@@ -5,6 +5,7 @@
   "scripts": {
     "dev": "vite",
     "build": "tsc && vite build --base=/react-tetris/",
+    "build:pr": "tsc && vite build",
     "preview": "vite preview",
     "lint-staged": "lint-staged",
     "prepare": "husky install",

@@ -4,6 +4,7 @@ import { Speed } from 'models/speed';
 import { AnimatedTile } from 'models/tile/animatedTile';
 import { EmptyTile } from 'models/tile/emptyTile';
 import { FilledTile } from 'models/tile/filledTile';
+import { Tile } from 'models/tile/tile';
 import { TetrisState } from 'store';
 import { AudioService } from './audioService';
 import {
@@ -97,7 +98,7 @@ export function update(state: TetrisState) {
     state.setCurrentPiece(state.currentPiece.revert());
 
     // draw filled tile in board
-    const newMatrix = structuredClone(state.matrix);
+    const newMatrix = JSON.parse(JSON.stringify(state.matrix));
     state.currentPiece.revert()?.positionOnGrid.forEach((position) => {
       newMatrix[position] = new AnimatedTile(true);
     });
@@ -150,7 +151,7 @@ function drawPiece(state: TetrisState) {
   if (state.currentPiece) {
     state.setCurrentPiece(state.currentPiece.clearStore());
   }
-  const newMatrix = structuredClone(state.matrix);
+  const newMatrix = JSON.parse(JSON.stringify(state.matrix));
   state.currentPiece?.positionOnGrid.forEach((position) => {
     const { isSolid } = state.matrix[position];
     newMatrix[position] = new FilledTile(isSolid);
@@ -159,7 +160,7 @@ function drawPiece(state: TetrisState) {
 }
 
 function clearPiece(state: TetrisState) {
-  const newMatrix = structuredClone(state.matrix);
+  const newMatrix = JSON.parse(JSON.stringify(state.matrix));
   state.currentPiece?.positionOnGrid.forEach((position) => {
     newMatrix[position] = new EmptyTile();
   });
@@ -167,14 +168,14 @@ function clearPiece(state: TetrisState) {
 }
 
 export function clearFullLines(state: TetrisState) {
-  const newMatrix = structuredClone(state.matrix);
+  const newMatrix = JSON.parse(JSON.stringify(state.matrix));
   let numberOfFullLines = 0;
   for (let rowIndex = MatrixUtil.HEIGHT - 1; rowIndex >= 0; rowIndex--) {
     const row = newMatrix.slice(
       rowIndex * MatrixUtil.WIDTH,
       (rowIndex + 1) * MatrixUtil.WIDTH,
     );
-    const isRowFullySolid = row.every((cell) => cell.isSolid);
+    const isRowFullySolid = row.every((cell: Tile) => cell.isSolid);
     if (isRowFullySolid) {
       numberOfFullLines++;
       const topPortion = newMatrix.slice(0, rowIndex * MatrixUtil.WIDTH);
